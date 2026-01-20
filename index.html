@@ -3,60 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Little Surprise for You ❤️</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@300;500&display=swap" rel="stylesheet">
+    <title>A Special Surprise ❤️</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@300;500;700&display=swap" rel="stylesheet">
     
     <style>
-        .section {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-}
-
-.card {
-    background: white;
-    padding: 30px;
-    border-radius: 25px;
-    box-shadow: 0 10px 30px rgba(255, 77, 109, 0.2);
-    max-width: 500px;
-    width: 100%;
-}
-
-.progress-container {
-    width: 100%;
-    height: 20px;
-    background: #eee;
-    border-radius: 10px;
-    margin: 20px 0;
-    overflow: hidden;
-    display: none; /* Hidden until button is clicked */
-}
-
-#progress-bar {
-    width: 0%;
-    height: 100%;
-    background: var(--primary-pink);
-    transition: width 0.1s;
-}
-
-#result-box {
-    margin-top: 20px;
-    padding: 15px;
-    border: 2px dashed var(--primary-pink);
-    border-radius: 15px;
-    animation: fadeIn 1s;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
         :root {
             --primary-pink: #ff4d6d;
             --soft-pink: #fff0f3;
             --dark-pink: #c9184a;
+            --white: #ffffff;
         }
 
         body {
@@ -65,7 +21,7 @@
             font-family: 'Quicksand', sans-serif;
             background-color: var(--soft-pink);
             color: var(--dark-pink);
-            overflow-x: hidden;
+            scroll-behavior: smooth;
         }
 
         /* --- PASSWORD OVERLAY --- */
@@ -76,30 +32,41 @@
             display: flex; flex-direction: column;
             justify-content: center; align-items: center;
             z-index: 9999;
+            text-align: center;
+        }
+
+        #password-screen h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3rem;
+            margin-bottom: 10px;
         }
 
         input {
-            padding: 10px; font-size: 1.2rem;
+            padding: 12px; font-size: 1.1rem;
             border: 2px solid var(--primary-pink);
-            border-radius: 10px; outline: none;
-            text-align: center; margin-top: 20px;
+            border-radius: 12px; outline: none;
+            text-align: center; margin-top: 15px;
+            width: 250px;
         }
 
-        /* --- MAIN CONTENT --- */
+        /* --- MAIN CONTENT LAYOUT --- */
         .hidden { display: none; }
         
-        .hero {
-            height: 100vh;
-            display: flex; flex-direction: column;
-            justify-content: center; align-items: center;
-            text-align: center;
-            padding: 20px;
+        section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            box-sizing: border-box;
         }
 
-        h1 {
+        /* --- HERO SECTION --- */
+        .hero h1 {
             font-family: 'Dancing Script', cursive;
-            font-size: 4rem;
-            margin-bottom: 10px;
+            font-size: 4.5rem;
+            margin: 0;
             animation: float 3s ease-in-out infinite;
         }
 
@@ -108,110 +75,163 @@
             50% { transform: translateY(-20px); }
         }
 
+        /* --- CALCULATOR CARD --- */
+        .card {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 15px 40px rgba(255, 77, 109, 0.15);
+            max-width: 450px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 15px;
+            background: #f0f0f0;
+            border-radius: 10px;
+            margin: 25px 0;
+            overflow: hidden;
+            display: none;
+        }
+
+        #progress-bar {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-pink), var(--dark-pink));
+            transition: width 0.1s;
+        }
+
+        #result-box {
+            margin-top: 25px;
+            padding: 20px;
+            border: 2px dashed var(--primary-pink);
+            border-radius: 20px;
+            background-color: var(--soft-pink);
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        /* --- BUTTONS --- */
         .btn {
-            padding: 15px 35px;
+            padding: 16px 40px;
             background: var(--primary-pink);
             color: white;
             border: none;
             border-radius: 50px;
-            font-weight: bold;
+            font-weight: 700;
             cursor: pointer;
             font-size: 1.1rem;
-            transition: transform 0.2s, background 0.2s;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 77, 109, 0.3);
         }
 
-        .btn:hover { background: var(--dark-pink); transform: scale(1.05); }
+        .btn:hover {
+            background: var(--dark-pink);
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(255, 77, 109, 0.4);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
 
     </style>
 </head>
 <body>
 
     <div id="password-screen">
-        <h1>Hold on! Who is this?</h1>
-        <p>Enter the secret word to proceed:</p>
-        <input type="password" id="passInput" placeholder="Password...">
+        <h1>Stop Right There!</h1>
+        <p>This website is for <strong>one specific person</strong> only.<br>Please prove your identity:</p>
+        <input type="password" id="passInput" placeholder="Enter the secret word...">
+        <br>
         <button class="btn" style="margin-top: 20px;" onclick="checkPass()">Unlock My Heart</button>
     </div>
 
     <div id="main-content" class="hidden">
+        
         <section class="hero">
-            <section id="calculator" class="section">
-    <div class="card">
-        <h2>Relationship Compatibility Scanner 🔍</h2>
-        <p>Our AI will now analyze our relationship data...</p>
-        
-        <div class="progress-container">
-            <div id="progress-bar"></div>
-        </div>
-        
-        <p id="status-text">Ready to scan...</p>
-        
-        <button class="btn" id="scan-btn" onclick="startScan()">Run Analysis</button>
-
-        <div id="result-box" class="hidden">
-            <h3 id="score">Compatibility: 99.9%</h3>
-            <p id="diagnosis"><strong>Diagnosis:</strong> Perfect match! However, system detected a 100% chance of you being "the mean one" in the relationship. 😂</p>
-        </div>
-    </div>
-</section>
             <h1>Hey Gorgeous...</h1>
-            <p style="font-size: 1.2rem;">I made something special just for you.</p>
-            <button class="btn" onclick="scrollToNext()">Click to see why</button>
+            <p style="font-size: 1.3rem; margin-top: 10px;">You actually got the password right. Impressive. 😉</p>
+            <p style="color: #a0a0a0;">Scroll down for your first surprise...</p>
         </section>
 
-        </div>
+        <section id="calculator">
+            <div class="card">
+                <h2 style="margin-top: 0;">Compatibility Scanner 🔍</h2>
+                <p>Let's see if we actually make sense together...</p>
+                
+                <div class="progress-container">
+                    <div id="progress-bar"></div>
+                </div>
+                
+                <p id="status-text" style="font-weight: bold;"></p>
+                
+                <button class="btn" id="scan-btn" onclick="startScan()">Analyze Us</button>
+
+                <div id="result-box" class="hidden">
+                    <h3 style="margin: 0; color: var(--dark-pink);">Match Score: 99.9%</h3>
+                    <p style="font-size: 0.95rem; line-height: 1.5; margin-top: 10px;">
+                        <strong>System Note:</strong> The 0.1% error is due to your inability to decide what to eat for dinner. Otherwise, you're stuck with me! ❤️
+                    </p>
+                </div>
+            </div>
+            <p style="margin-top: 30px; font-size: 0.9rem; opacity: 0.7;">Keep scrolling, there's more...</p>
+        </section>
+
+    </div>
 
     <script>
-        function startScan() {
-    const btn = document.getElementById('scan-btn');
-    const progContainer = document.querySelector('.progress-container');
-    const progBar = document.getElementById('progress-bar');
-    const statusText = document.getElementById('status-text');
-    const resultBox = document.getElementById('result-box');
-
-    btn.style.display = 'none'; // Hide button
-    progContainer.style.display = 'block'; // Show bar
-
-    let width = 0;
-    const messages = [
-        "Analyzing shared memories...",
-        "Checking who wins every argument...",
-        "Measuring sassy levels (Critical Levels Detected)...",
-        "Calculating patience of boyfriend...",
-        "Finalizing results..."
-    ];
-
-    const interval = setInterval(() => {
-        if (width >= 100) {
-            clearInterval(interval);
-            statusText.innerText = "Scan Complete!";
-            resultBox.classList.remove('hidden');
-        } else {
-            width++;
-            progBar.style.width = width + '%';
-            
-            // Change message based on progress
-            if (width < 25) statusText.innerText = messages[0];
-            else if (width < 50) statusText.innerText = messages[1];
-            else if (width < 75) statusText.innerText = messages[2];
-            else if (width < 90) statusText.innerText = messages[3];
-            else statusText.innerText = messages[4];
-        }
-    }, 50); // Speed of the scan
-}
+        // --- 1. PASSWORD LOGIC ---
         function checkPass() {
             const input = document.getElementById('passInput').value;
-            // Set your password here (Lowercase to be safe)
-            if(input.toLowerCase() === "basement") { 
+            // CHANGE "munchkin" TO YOUR SECRET WORD
+            if(input.toLowerCase() === "munchkin") { 
                 document.getElementById('password-screen').style.display = 'none';
                 document.getElementById('main-content').classList.remove('hidden');
+                window.scrollTo(0, 0); // Start at the top
             } else {
-                alert("Incorrect! Only my favorite person has the key.");
+                alert("ACCESS DENIED. Are you a hacker or just not my girlfriend? 😂");
             }
         }
 
-        function scrollToNext() {
-            alert("This is where the fun starts! Let's build the next section.");
+        // --- 2. CALCULATOR LOGIC ---
+        function startScan() {
+            const btn = document.getElementById('scan-btn');
+            const progContainer = document.querySelector('.progress-container');
+            const progBar = document.getElementById('progress-bar');
+            const statusText = document.getElementById('status-text');
+            const resultBox = document.getElementById('result-box');
+
+            btn.style.display = 'none';
+            progContainer.style.display = 'block';
+
+            let width = 0;
+            const messages = [
+                "Accessing shared memories...",
+                "Calculating argument win-ratio...",
+                "Scanning sassy attitude levels...",
+                "Verifying 'Who loves who more'...",
+                "Results ready!"
+            ];
+
+            const interval = setInterval(() => {
+                if (width >= 100) {
+                    clearInterval(interval);
+                    statusText.innerText = "Analysis Complete!";
+                    resultBox.classList.remove('hidden');
+                } else {
+                    width++;
+                    progBar.style.width = width + '%';
+                    
+                    if (width < 20) statusText.innerText = messages[0];
+                    else if (width < 45) statusText.innerText = messages[1];
+                    else if (width < 70) statusText.innerText = messages[2];
+                    else if (width < 90) statusText.innerText = messages[3];
+                    else statusText.innerText = messages[4];
+                }
+            }, 60); 
         }
     </script>
 </body>
