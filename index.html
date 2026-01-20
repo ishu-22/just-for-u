@@ -3,55 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Special Surprise ❤️</title>
+    <title>A Little Surprise for You ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@300;500&display=swap" rel="stylesheet">
+    
     <style>
-        body { background-color: #fff0f3; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; color: #ff4d6d; }
+        :root {
+            --primary-pink: #ff4d6d;
+            --soft-pink: #fff0f3;
+            --dark-pink: #c9184a;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Quicksand', sans-serif;
+            background-color: var(--soft-pink);
+            color: var(--dark-pink);
+            overflow-x: hidden;
+        }
+
+        /* --- PASSWORD OVERLAY --- */
+        #password-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--soft-pink);
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            z-index: 9999;
+        }
+
+        input {
+            padding: 10px; font-size: 1.2rem;
+            border: 2px solid var(--primary-pink);
+            border-radius: 10px; outline: none;
+            text-align: center; margin-top: 20px;
+        }
+
+        /* --- MAIN CONTENT --- */
         .hidden { display: none; }
-        .main-content { padding: 50px 20px; }
-        h1 { font-size: 3rem; margin-bottom: 20px; }
-        .btn { padding: 15px 30px; font-size: 1.2rem; cursor: pointer; border-radius: 50px; border: none; transition: 0.3s; margin: 10px; font-weight: bold; }
-        #yesBtn { background-color: #ff4d6d; color: white; box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4); }
-        #noBtn { background-color: #808080; color: white; position: absolute; }
-        .photo-placeholder { width: 300px; height: 300px; background: #ddd; margin: 20px auto; border-radius: 20px; border: 5px solid white; display: flex; align-items: center; justify-content: center; color: #888; }
+        
+        .hero {
+            height: 100vh;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 4rem;
+            margin-bottom: 10px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .btn {
+            padding: 15px 35px;
+            background: var(--primary-pink);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .btn:hover { background: var(--dark-pink); transform: scale(1.05); }
+
     </style>
 </head>
 <body>
 
-    <div id="content" class="hidden">
-        <div class="main-content">
-            <h1>Will you be my Valentine? ❤️</h1>
-            
-            <div class="photo-placeholder">Your Favorite Photo of Us Here</div>
-
-            <button class="btn" id="yesBtn" onclick="celebrate()">YES</button>
-            <button class="btn" id="noBtn" onmouseover="moveButton()">NO</button>
-        </div>
+    <div id="password-screen">
+        <h1>Hold on! Who is this?</h1>
+        <p>Enter the secret word to proceed:</p>
+        <input type="password" id="passInput" placeholder="Password...">
+        <button class="btn" style="margin-top: 20px;" onclick="checkPass()">Unlock My Heart</button>
     </div>
 
-    <script>
-        // 1. THE PASSWORD TEASE
-        window.onload = function() {
-            const pass = prompt("Access Denied! Enter the secret password (Hint: The place we had our first date):");
-            if (pass.toLowerCase() === "starbucks") { // <--- CHANGE THIS PASSWORD
-                document.getElementById('content').classList.remove('hidden');
-            } else {
-                alert("Wrong! Go ask your boyfriend for the hint. 😂");
-                window.location.reload();
-            }
-        };
+    <div id="main-content" class="hidden">
+        <section class="hero">
+            <h1>Hey Gorgeous...</h1>
+            <p style="font-size: 1.2rem;">I made something special just for you.</p>
+            <button class="btn" onclick="scrollToNext()">Click to see why</button>
+        </section>
 
-        // 2. THE RUNAWAY BUTTON
-        function moveButton() {
-            const btn = document.getElementById('noBtn');
-            const x = Math.random() * (window.innerWidth - btn.offsetWidth);
-            const y = Math.random() * (window.innerHeight - btn.offsetHeight);
-            btn.style.left = x + 'px';
-            btn.style.top = y + 'px';
+        </div>
+
+    <script>
+        function checkPass() {
+            const input = document.getElementById('passInput').value;
+            // Set your password here (Lowercase to be safe)
+            if(input.toLowerCase() === "basement") { 
+                document.getElementById('password-screen').style.display = 'none';
+                document.getElementById('main-content').classList.remove('hidden');
+            } else {
+                alert("Incorrect! Only my favorite person has the key.");
+            }
         }
 
-        // 3. THE REWARD
-        function celebrate() {
-            alert("Good choice! You just won a date with the best guy in the world. ❤️ Check your WhatsApp!");
+        function scrollToNext() {
+            alert("This is where the fun starts! Let's build the next section.");
         }
     </script>
 </body>
