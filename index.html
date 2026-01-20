@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Surprise ❤️</title>
+    <style>
+        body { background-color: #fff0f3; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; color: #ff4d6d; }
+        .hidden { display: none; }
+        .main-content { padding: 50px 20px; }
+        h1 { font-size: 3rem; margin-bottom: 20px; }
+        .btn { padding: 15px 30px; font-size: 1.2rem; cursor: pointer; border-radius: 50px; border: none; transition: 0.3s; margin: 10px; font-weight: bold; }
+        #yesBtn { background-color: #ff4d6d; color: white; box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4); }
+        #noBtn { background-color: #808080; color: white; position: absolute; }
+        .photo-placeholder { width: 300px; height: 300px; background: #ddd; margin: 20px auto; border-radius: 20px; border: 5px solid white; display: flex; align-items: center; justify-content: center; color: #888; }
+    </style>
+</head>
+<body>
+
+    <div id="content" class="hidden">
+        <div class="main-content">
+            <h1>Will you be my Valentine? ❤️</h1>
+            
+            <div class="photo-placeholder">Your Favorite Photo of Us Here</div>
+
+            <button class="btn" id="yesBtn" onclick="celebrate()">YES</button>
+            <button class="btn" id="noBtn" onmouseover="moveButton()">NO</button>
+        </div>
+    </div>
+
+    <script>
+        // 1. THE PASSWORD TEASE
+        window.onload = function() {
+            const pass = prompt("Access Denied! Enter the secret password (Hint: The place we had our first date):");
+            if (pass.toLowerCase() === "starbucks") { // <--- CHANGE THIS PASSWORD
+                document.getElementById('content').classList.remove('hidden');
+            } else {
+                alert("Wrong! Go ask your boyfriend for the hint. 😂");
+                window.location.reload();
+            }
+        };
+
+        // 2. THE RUNAWAY BUTTON
+        function moveButton() {
+            const btn = document.getElementById('noBtn');
+            const x = Math.random() * (window.innerWidth - btn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - btn.offsetHeight);
+            btn.style.left = x + 'px';
+            btn.style.top = y + 'px';
+        }
+
+        // 3. THE REWARD
+        function celebrate() {
+            alert("Good choice! You just won a date with the best guy in the world. ❤️ Check your WhatsApp!");
+        }
+    </script>
+</body>
+</html>
