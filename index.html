@@ -16,8 +16,7 @@
         }
 
         body {
-            margin: 0;
-            padding: 0;
+            margin: 0; padding: 0;
             font-family: 'Quicksand', sans-serif;
             background-color: var(--soft-pink);
             color: var(--dark-pink);
@@ -25,23 +24,21 @@
             overflow-x: hidden;
         }
 
-        /* --- PASSWORD OVERLAY --- */
+        /* --- PASSWORD GATE --- */
         #password-screen {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: var(--soft-pink);
             display: flex; flex-direction: column;
             justify-content: center; align-items: center;
-            z-index: 9999;
-            text-align: center;
+            z-index: 9999; text-align: center;
         }
 
         input {
             padding: 12px; font-size: 1.1rem;
             border: 2px solid var(--primary-pink);
             border-radius: 12px; outline: none;
-            text-align: center; margin-top: 15px;
-            width: 250px;
+            text-align: center; margin-top: 15px; width: 250px;
         }
 
         /* --- LAYOUT --- */
@@ -49,17 +46,14 @@
         
         section {
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 40px 20px;
-            text-align: center;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            padding: 40px 20px; text-align: center;
         }
 
         .hero h1 {
             font-family: 'Dancing Script', cursive;
-            font-size: 4.5rem;
+            font-size: clamp(3rem, 10vw, 5rem);
             margin: 0;
             animation: float 3s ease-in-out infinite;
         }
@@ -69,14 +63,11 @@
             50% { transform: translateY(-20px); }
         }
 
-        /* --- CARDS --- */
         .card {
             background: var(--white);
-            padding: 40px;
-            border-radius: 30px;
+            padding: 40px; border-radius: 30px;
             box-shadow: 0 15px 40px rgba(255, 77, 109, 0.15);
-            max-width: 450px;
-            width: 100%;
+            max-width: 450px; width: 100%;
         }
 
         .progress-container {
@@ -91,22 +82,24 @@
             transition: width 0.1s;
         }
 
-        /* --- THE RUNAWAY SECTION --- */
+        /* --- FIXED RUNAWAY SECTION --- */
         #question-section {
             position: relative;
+            width: 100vw;
+            height: 100vh;
         }
 
         .btn-container {
-            margin-top: 30px;
+            margin-top: 50px;
             display: flex;
             justify-content: center;
-            gap: 20px;
+            align-items: center;
+            gap: 100px; /* Forces distance between buttons */
             position: relative;
-            min-height: 100px;
             width: 100%;
+            height: 200px;
         }
 
-        /* --- BUTTONS --- */
         .btn {
             padding: 16px 40px;
             background: var(--primary-pink);
@@ -118,15 +111,27 @@
             font-size: 1.1rem;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(255, 77, 109, 0.3);
+            z-index: 5;
         }
 
-        .btn:hover { background: var(--dark-pink); transform: scale(1.05); }
-
+        /* Initial positioning for the No button so it's NOT on top */
         #noBtn {
             background-color: #808080;
-            position: absolute; /* Vital for moving */
-            transition: 0.1s;
+            position: absolute; 
+            left: 60%; /* Moves it to the right of center */
+            transition: 0.15s ease-out;
             z-index: 10;
+        }
+
+        #yesBtn {
+            position: absolute;
+            left: 30%; /* Moves it to the left of center */
+        }
+
+        @media (max-width: 600px) {
+            #yesBtn { left: 10%; }
+            #noBtn { left: 55%; }
+            .hero h1 { font-size: 3.5rem; }
         }
 
     </style>
@@ -150,7 +155,7 @@
 
         <section id="calculator">
             <div class="card">
-                <h2>Compatibility Scanner 🔍</h2>
+                <h2>Relationship Scanner 🔍</h2>
                 <div class="progress-container"><div id="progress-bar"></div></div>
                 <p id="status-text">Ready to analyze...</p>
                 <button class="btn" id="scan-btn" onclick="startScan()">Analyze Us</button>
@@ -160,10 +165,11 @@
                     <p>Error: System detects you are 100% more likely to steal my hoodies. 😂</p>
                 </div>
             </div>
+            <p style="margin-top: 40px; opacity: 0.6;">(Almost there... scroll down for the last bit)</p>
         </section>
 
         <section id="question-section">
-            <h1 style="font-family: 'Dancing Script'; font-size: 4rem;">One more thing...</h1>
+            <h1 style="font-family: 'Dancing Script'; font-size: 4rem;">One last thing...</h1>
             <p style="font-size: 1.5rem;">Will you be my Valentine?</p>
             
             <div class="btn-container">
@@ -175,10 +181,10 @@
     </div>
 
     <script>
-        // 1. Password
+        // 1. Password (Change 'munchkin' to your word)
         function checkPass() {
             const input = document.getElementById('passInput').value;
-            if(input.toLowerCase() === "munchkin") { // Set your password here
+            if(input.toLowerCase() === "munchkin") { 
                 document.getElementById('password-screen').style.display = 'none';
                 document.getElementById('main-content').classList.remove('hidden');
             } else { alert("Wrong! 😂 Try again."); }
@@ -206,19 +212,22 @@
         // 3. RUNAWAY BUTTON LOGIC
         function moveButton() {
             const noBtn = document.getElementById('noBtn');
-            // Calculate random position within the visible screen area
-            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - 20);
-            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - 20);
+            const container = document.querySelector('.btn-container');
             
-            noBtn.style.left = x + 'px';
-            noBtn.style.top = y + 'px';
+            // This ensures it moves within the whole screen
+            const maxX = window.innerWidth - noBtn.offsetWidth - 20;
+            const maxY = window.innerHeight - noBtn.offsetHeight - 20;
+            
+            const randomX = Math.floor(Math.random() * maxX);
+            const randomY = Math.floor(Math.random() * maxY);
+            
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
         }
 
         // 4. CELEBRATION
         function celebrate() {
-            alert("YAY! ❤️ Best. Decision. Ever. I love you!");
-            // Optional: You can redirect her to a special video or photo here
-            // window.location.href = "your-link-here";
+            alert("YAY! ❤️ I knew you couldn't say no! Happy Valentine's Day!");
         }
     </script>
 </body>
