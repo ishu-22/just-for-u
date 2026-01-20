@@ -22,6 +22,25 @@
             color: var(--dark-pink);
             scroll-behavior: smooth;
             overflow-x: hidden;
+            position: relative;
+        }
+
+        /* --- HEART ANIMATION STYLE --- */
+        .heart {
+            position: fixed;
+            top: -10px;
+            color: var(--primary-pink);
+            font-size: 20px;
+            user-select: none;
+            z-index: -1; /* Keeps hearts behind the text */
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(105vh) translateX(20px) rotate(360deg);
+                opacity: 0;
+            }
         }
 
         /* --- PASSWORD GATE --- */
@@ -49,22 +68,19 @@
             display: flex; flex-direction: column;
             justify-content: center; align-items: center;
             padding: 40px 20px; text-align: center;
+            position: relative;
         }
 
         .hero h1 {
             font-family: 'Dancing Script', cursive;
-            font-size: clamp(3rem, 10vw, 5rem);
+            font-size: clamp(3.5rem, 10vw, 5.5rem);
             margin: 0;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
+            text-shadow: 2px 2px 10px rgba(255, 77, 109, 0.2);
         }
 
         .card {
-            background: var(--white);
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(5px);
             padding: 40px; border-radius: 30px;
             box-shadow: 0 15px 40px rgba(255, 77, 109, 0.15);
             max-width: 450px; width: 100%;
@@ -82,56 +98,40 @@
             transition: width 0.1s;
         }
 
-        /* --- FIXED RUNAWAY SECTION --- */
+        /* --- RUNAWAY SECTION --- */
         #question-section {
-            position: relative;
-            width: 100vw;
-            height: 100vh;
+            width: 100vw; height: 100vh;
         }
 
         .btn-container {
             margin-top: 50px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 100px; /* Forces distance between buttons */
-            position: relative;
-            width: 100%;
-            height: 200px;
+            display: flex; justify-content: center; align-items: center;
+            position: relative; width: 100%; height: 300px;
         }
 
         .btn {
             padding: 16px 40px;
             background: var(--primary-pink);
-            color: white;
-            border: none;
-            border-radius: 50px;
-            font-weight: 700;
-            cursor: pointer;
-            font-size: 1.1rem;
+            color: white; border: none;
+            border-radius: 50px; font-weight: 700;
+            cursor: pointer; font-size: 1.1rem;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(255, 77, 109, 0.3);
-            z-index: 5;
+            z-index: 100;
         }
 
-        /* Initial positioning for the No button so it's NOT on top */
         #noBtn {
             background-color: #808080;
             position: absolute; 
-            left: 60%; /* Moves it to the right of center */
+            left: 60%;
             transition: 0.15s ease-out;
-            z-index: 10;
         }
 
-        #yesBtn {
-            position: absolute;
-            left: 30%; /* Moves it to the left of center */
-        }
+        #yesBtn { position: absolute; left: 25%; }
 
         @media (max-width: 600px) {
-            #yesBtn { left: 10%; }
+            #yesBtn { left: 15%; }
             #noBtn { left: 55%; }
-            .hero h1 { font-size: 3.5rem; }
         }
 
     </style>
@@ -139,8 +139,8 @@
 <body>
 
     <div id="password-screen">
-        <h1 style="font-family: 'Dancing Script';">Wait a minute...</h1>
-        <p>Identify yourself to enter.</p>
+        <h1 style="font-family: 'Dancing Script';">Hold on!</h1>
+        <p>Verify your identity to proceed.</p>
         <input type="password" id="passInput" placeholder="Secret word...">
         <button class="btn" style="margin-top: 20px;" onclick="checkPass()">Unlock</button>
     </div>
@@ -149,28 +149,29 @@
         
         <section class="hero">
             <h1>Hey Beautiful...</h1>
-            <p style="font-size: 1.3rem;">I built this whole thing just for you.</p>
-            <p style="color: #a0a0a0;">Scroll down...</p>
+            <p style="font-size: 1.4rem; font-weight: 500;">You actually remembered the password. <br>I'm impressed. 😉</p>
+            <p style="margin-top: 20px; opacity: 0.6; font-size: 0.9rem;">Scroll down to begin...</p>
         </section>
 
         <section id="calculator">
             <div class="card">
-                <h2>Relationship Scanner 🔍</h2>
+                <h2 style="margin-top:0;">Relationship Scanner 🔍</h2>
                 <div class="progress-container"><div id="progress-bar"></div></div>
-                <p id="status-text">Ready to analyze...</p>
+                <p id="status-text" style="font-weight:700;">Ready to scan...</p>
                 <button class="btn" id="scan-btn" onclick="startScan()">Analyze Us</button>
 
                 <div id="result-box" class="hidden">
-                    <h3 style="color: var(--dark-pink);">Result: 99.9% Match</h3>
-                    <p>Error: System detects you are 100% more likely to steal my hoodies. 😂</p>
+                    <h3 style="color: var(--dark-pink); margin: 0;">Compatibility: 99.9%</h3>
+                    <p style="margin-top: 15px; line-height: 1.5;">
+                        <strong>Note:</strong> System detected 100% chance of you being the "mean" one today. But it's okay, I like you anyway! ❤️
+                    </p>
                 </div>
             </div>
-            <p style="margin-top: 40px; opacity: 0.6;">(Almost there... scroll down for the last bit)</p>
         </section>
 
         <section id="question-section">
-            <h1 style="font-family: 'Dancing Script'; font-size: 4rem;">One last thing...</h1>
-            <p style="font-size: 1.5rem;">Will you be my Valentine?</p>
+            <h1 style="font-family: 'Dancing Script'; font-size: 4rem;">Wait, before you go...</h1>
+            <p style="font-size: 1.6rem; font-weight: 500;">Will you be my Valentine?</p>
             
             <div class="btn-container">
                 <button class="btn" id="yesBtn" onclick="celebrate()">YES</button>
@@ -181,22 +182,45 @@
     </div>
 
     <script>
-        // 1. Password (Change 'munchkin' to your word)
+        // --- 1. HEART GENERATOR ---
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 2 + 's'; // Between 2-5s
+            heart.style.opacity = Math.random();
+            heart.style.fontSize = Math.random() * 20 + 10 + 'px';
+            
+            document.body.appendChild(heart);
+            
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+        }
+
+        setInterval(createHeart, 300); // Create a heart every 300ms
+
+        // --- 2. PASSWORD LOGIC ---
         function checkPass() {
             const input = document.getElementById('passInput').value;
+            // CHANGE "munchkin" TO YOUR SECRET WORD
             if(input.toLowerCase() === "munchkin") { 
                 document.getElementById('password-screen').style.display = 'none';
                 document.getElementById('main-content').classList.remove('hidden');
-            } else { alert("Wrong! 😂 Try again."); }
+                window.scrollTo(0,0);
+            } else { alert("Wrong! Are you a hacker? 😂"); }
         }
 
-        // 2. Scanner
+        // --- 3. SCANNER LOGIC ---
         function startScan() {
             const btn = document.getElementById('scan-btn');
             const progBar = document.getElementById('progress-bar');
             document.querySelector('.progress-container').style.display = 'block';
             btn.style.display = 'none';
             let width = 0;
+            const messages = ["Analyzing vibe...", "Checking attitude...", "Counting stolen hoodies...", "Almost there..."];
+            
             const id = setInterval(() => {
                 if (width >= 100) {
                     clearInterval(id);
@@ -205,16 +229,14 @@
                 } else {
                     width++;
                     progBar.style.width = width + '%';
+                    if(width % 25 === 0) document.getElementById('status-text').innerText = messages[width/25 - 1];
                 }
             }, 50);
         }
 
-        // 3. RUNAWAY BUTTON LOGIC
+        // --- 4. RUNAWAY BUTTON ---
         function moveButton() {
             const noBtn = document.getElementById('noBtn');
-            const container = document.querySelector('.btn-container');
-            
-            // This ensures it moves within the whole screen
             const maxX = window.innerWidth - noBtn.offsetWidth - 20;
             const maxY = window.innerHeight - noBtn.offsetHeight - 20;
             
@@ -225,9 +247,9 @@
             noBtn.style.top = randomY + 'px';
         }
 
-        // 4. CELEBRATION
         function celebrate() {
-            alert("YAY! ❤️ I knew you couldn't say no! Happy Valentine's Day!");
+            alert("YAY! ❤️ See you on Valentine's Day! (Check your messages)");
+            // You can add a redirect here if you want!
         }
     </script>
 </body>
