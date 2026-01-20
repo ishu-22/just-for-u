@@ -22,6 +22,7 @@
             background-color: var(--soft-pink);
             color: var(--dark-pink);
             scroll-behavior: smooth;
+            overflow-x: hidden;
         }
 
         /* --- PASSWORD OVERLAY --- */
@@ -35,12 +36,6 @@
             text-align: center;
         }
 
-        #password-screen h1 {
-            font-family: 'Dancing Script', cursive;
-            font-size: 3rem;
-            margin-bottom: 10px;
-        }
-
         input {
             padding: 12px; font-size: 1.1rem;
             border: 2px solid var(--primary-pink);
@@ -49,7 +44,7 @@
             width: 250px;
         }
 
-        /* --- MAIN CONTENT LAYOUT --- */
+        /* --- LAYOUT --- */
         .hidden { display: none; }
         
         section {
@@ -59,10 +54,9 @@
             justify-content: center;
             align-items: center;
             padding: 40px 20px;
-            box-sizing: border-box;
+            text-align: center;
         }
 
-        /* --- HERO SECTION --- */
         .hero h1 {
             font-family: 'Dancing Script', cursive;
             font-size: 4.5rem;
@@ -75,7 +69,7 @@
             50% { transform: translateY(-20px); }
         }
 
-        /* --- CALCULATOR CARD --- */
+        /* --- CARDS --- */
         .card {
             background: var(--white);
             padding: 40px;
@@ -83,33 +77,33 @@
             box-shadow: 0 15px 40px rgba(255, 77, 109, 0.15);
             max-width: 450px;
             width: 100%;
-            text-align: center;
         }
 
         .progress-container {
-            width: 100%;
-            height: 15px;
-            background: #f0f0f0;
-            border-radius: 10px;
-            margin: 25px 0;
-            overflow: hidden;
-            display: none;
+            width: 100%; height: 15px;
+            background: #f0f0f0; border-radius: 10px;
+            margin: 25px 0; overflow: hidden; display: none;
         }
 
         #progress-bar {
-            width: 0%;
-            height: 100%;
+            width: 0%; height: 100%;
             background: linear-gradient(90deg, var(--primary-pink), var(--dark-pink));
             transition: width 0.1s;
         }
 
-        #result-box {
-            margin-top: 25px;
-            padding: 20px;
-            border: 2px dashed var(--primary-pink);
-            border-radius: 20px;
-            background-color: var(--soft-pink);
-            animation: fadeIn 0.8s ease-in-out;
+        /* --- THE RUNAWAY SECTION --- */
+        #question-section {
+            position: relative;
+        }
+
+        .btn-container {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            position: relative;
+            min-height: 100px;
+            width: 100%;
         }
 
         /* --- BUTTONS --- */
@@ -126,15 +120,13 @@
             box-shadow: 0 4px 15px rgba(255, 77, 109, 0.3);
         }
 
-        .btn:hover {
-            background: var(--dark-pink);
-            transform: scale(1.05);
-            box-shadow: 0 6px 20px rgba(255, 77, 109, 0.4);
-        }
+        .btn:hover { background: var(--dark-pink); transform: scale(1.05); }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
+        #noBtn {
+            background-color: #808080;
+            position: absolute; /* Vital for moving */
+            transition: 0.1s;
+            z-index: 10;
         }
 
     </style>
@@ -142,96 +134,91 @@
 <body>
 
     <div id="password-screen">
-        <h1>Stop Right There!</h1>
-        <p>This website is for <strong>one specific person</strong> only.<br>Please prove your identity:</p>
-        <input type="password" id="passInput" placeholder="Enter the secret word...">
-        <br>
-        <button class="btn" style="margin-top: 20px;" onclick="checkPass()">Unlock My Heart</button>
+        <h1 style="font-family: 'Dancing Script';">Wait a minute...</h1>
+        <p>Identify yourself to enter.</p>
+        <input type="password" id="passInput" placeholder="Secret word...">
+        <button class="btn" style="margin-top: 20px;" onclick="checkPass()">Unlock</button>
     </div>
 
     <div id="main-content" class="hidden">
         
         <section class="hero">
-            <h1>Hey Gorgeous...</h1>
-            <p style="font-size: 1.3rem; margin-top: 10px;">You actually got the password right. Impressive. 😉</p>
-            <p style="color: #a0a0a0;">Scroll down for your first surprise...</p>
+            <h1>Hey Beautiful...</h1>
+            <p style="font-size: 1.3rem;">I built this whole thing just for you.</p>
+            <p style="color: #a0a0a0;">Scroll down...</p>
         </section>
 
         <section id="calculator">
             <div class="card">
-                <h2 style="margin-top: 0;">Compatibility Scanner 🔍</h2>
-                <p>Let's see if we actually make sense together...</p>
-                
-                <div class="progress-container">
-                    <div id="progress-bar"></div>
-                </div>
-                
-                <p id="status-text" style="font-weight: bold;"></p>
-                
+                <h2>Compatibility Scanner 🔍</h2>
+                <div class="progress-container"><div id="progress-bar"></div></div>
+                <p id="status-text">Ready to analyze...</p>
                 <button class="btn" id="scan-btn" onclick="startScan()">Analyze Us</button>
 
                 <div id="result-box" class="hidden">
-                    <h3 style="margin: 0; color: var(--dark-pink);">Match Score: 99.9%</h3>
-                    <p style="font-size: 0.95rem; line-height: 1.5; margin-top: 10px;">
-                        <strong>System Note:</strong> The 0.1% error is due to your inability to decide what to eat for dinner. Otherwise, you're stuck with me! ❤️
-                    </p>
+                    <h3 style="color: var(--dark-pink);">Result: 99.9% Match</h3>
+                    <p>Error: System detects you are 100% more likely to steal my hoodies. 😂</p>
                 </div>
             </div>
-            <p style="margin-top: 30px; font-size: 0.9rem; opacity: 0.7;">Keep scrolling, there's more...</p>
+        </section>
+
+        <section id="question-section">
+            <h1 style="font-family: 'Dancing Script'; font-size: 4rem;">One more thing...</h1>
+            <p style="font-size: 1.5rem;">Will you be my Valentine?</p>
+            
+            <div class="btn-container">
+                <button class="btn" id="yesBtn" onclick="celebrate()">YES</button>
+                <button class="btn" id="noBtn" onmouseover="moveButton()" onclick="moveButton()">NO</button>
+            </div>
         </section>
 
     </div>
 
     <script>
-        // --- 1. PASSWORD LOGIC ---
+        // 1. Password
         function checkPass() {
             const input = document.getElementById('passInput').value;
-            // CHANGE "munchkin" TO YOUR SECRET WORD
-            if(input.toLowerCase() === "manya") { 
+            if(input.toLowerCase() === "munchkin") { // Set your password here
                 document.getElementById('password-screen').style.display = 'none';
                 document.getElementById('main-content').classList.remove('hidden');
-                window.scrollTo(0, 0); // Start at the top
-            } else {
-                alert("ACCESS DENIED. Are you a hacker or just not my girlfriend? 😂");
-            }
+            } else { alert("Wrong! 😂 Try again."); }
         }
 
-        // --- 2. CALCULATOR LOGIC ---
+        // 2. Scanner
         function startScan() {
             const btn = document.getElementById('scan-btn');
-            const progContainer = document.querySelector('.progress-container');
             const progBar = document.getElementById('progress-bar');
-            const statusText = document.getElementById('status-text');
-            const resultBox = document.getElementById('result-box');
-
+            document.querySelector('.progress-container').style.display = 'block';
             btn.style.display = 'none';
-            progContainer.style.display = 'block';
-
             let width = 0;
-            const messages = [
-                "Accessing shared memories...",
-                "Calculating argument win-ratio...",
-                "Scanning sassy attitude levels...",
-                "Verifying 'Who loves who more'...",
-                "Results ready!"
-            ];
-
-            const interval = setInterval(() => {
+            const id = setInterval(() => {
                 if (width >= 100) {
-                    clearInterval(interval);
-                    statusText.innerText = "Analysis Complete!";
-                    resultBox.classList.remove('hidden');
+                    clearInterval(id);
+                    document.getElementById('result-box').classList.remove('hidden');
+                    document.getElementById('status-text').innerText = "Scan Complete!";
                 } else {
                     width++;
                     progBar.style.width = width + '%';
-                    
-                    if (width < 20) statusText.innerText = messages[0];
-                    else if (width < 45) statusText.innerText = messages[1];
-                    else if (width < 70) statusText.innerText = messages[2];
-                    else if (width < 90) statusText.innerText = messages[3];
-                    else statusText.innerText = messages[4];
                 }
-            }, 60); 
+            }, 50);
+        }
+
+        // 3. RUNAWAY BUTTON LOGIC
+        function moveButton() {
+            const noBtn = document.getElementById('noBtn');
+            // Calculate random position within the visible screen area
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - 20);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - 20);
+            
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
+        }
+
+        // 4. CELEBRATION
+        function celebrate() {
+            alert("YAY! ❤️ Best. Decision. Ever. I love you!");
+            // Optional: You can redirect her to a special video or photo here
+            // window.location.href = "your-link-here";
         }
     </script>
 </body>
