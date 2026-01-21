@@ -12,7 +12,7 @@
             --primary-pink: #ff4d6d;
             --soft-pink: #fff0f3;
             --dark-pink: #c9184a;
-            --white: rgba(255, 255, 255, 0.85);
+            --white: rgba(255, 255, 255, 0.9);
         }
 
         body {
@@ -26,114 +26,86 @@
 
         /* --- BACKGROUND HEARTS --- */
         .heart {
-            position: fixed;
-            top: -10px;
+            position: fixed; top: -10px;
             color: var(--primary-pink);
-            user-select: none;
-            z-index: -1;
+            user-select: none; z-index: -1;
             animation: fall linear forwards;
         }
 
         @keyframes fall {
-            to {
-                transform: translateY(105vh) translateX(20px) rotate(360deg);
-                opacity: 0;
-            }
+            to { transform: translateY(105vh) translateX(20px) rotate(360deg); opacity: 0; }
         }
 
-        /* --- AESTHETIC MUSIC PLAYER --- */
+        /* --- MUSIC PLAYER --- */
         #music-player {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: var(--white);
-            backdrop-filter: blur(10px);
-            padding: 10px 20px;
-            border-radius: 50px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
+            position: fixed; bottom: 20px; right: 20px;
+            background: var(--white); backdrop-filter: blur(10px);
+            padding: 10px 20px; border-radius: 50px;
+            display: flex; align-items: center; gap: 15px;
             box-shadow: 0 8px 32px rgba(255, 77, 109, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            z-index: 1000;
-            transition: all 0.5s ease;
+            z-index: 1000; border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         .album-art {
-            width: 40px;
-            height: 40px;
-            background: var(--primary-pink);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 20px;
-            animation: rotate 3s linear infinite;
-            animation-play-state: paused;
+            width: 40px; height: 40px; background: var(--primary-pink);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            color: white; animation: rotate 3s linear infinite; animation-play-state: paused;
         }
 
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        .music-info {
-            text-align: left;
-        }
-
-        .music-info span {
-            display: block;
-            font-size: 12px;
-            font-weight: 700;
-        }
-
-        .play-btn {
-            background: var(--primary-pink);
-            border: none;
-            color: white;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-        }
-
-        /* --- PASSWORD GATE --- */
-        #password-screen {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--soft-pink);
+        /* --- CONTENT LAYOUT --- */
+        .hidden { display: none; }
+        
+        section {
+            min-height: 100vh;
             display: flex; flex-direction: column;
             justify-content: center; align-items: center;
-            z-index: 9999; text-align: center;
+            padding: 60px 20px; text-align: center;
         }
 
-        input {
-            padding: 12px; border: 2px solid var(--primary-pink);
-            border-radius: 12px; outline: none; text-align: center; margin-top: 15px;
-        }
-
-        /* --- CONTENT SECTIONS --- */
-        .hidden { display: none; }
-        section { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 40px 20px; text-align: center; }
-        
         .hero h1 { font-family: 'Dancing Script'; font-size: clamp(3.5rem, 10vw, 5.5rem); margin: 0; }
 
+        /* --- MEMORY LANE SECTION --- */
+        .memory-container {
+            max-width: 800px; width: 100%;
+            display: flex; flex-direction: column; gap: 50px;
+        }
+
+        .memory-card {
+            background: white; padding: 20px;
+            border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            opacity: 0; transform: translateY(50px);
+            transition: all 0.8s ease-out;
+            max-width: 400px;
+        }
+
+        /* Alternating tilt for a scrapbook feel */
+        .memory-card:nth-child(odd) { align-self: flex-start; transform: rotate(-2deg) translateY(50px); }
+        .memory-card:nth-child(even) { align-self: flex-end; transform: rotate(2deg) translateY(50px); }
+
+        .memory-card.show { opacity: 1; transform: translateY(0) rotate(0); }
+
+        .memory-card img {
+            width: 100%; border-radius: 15px;
+            margin-bottom: 15px;
+        }
+
+        .memory-card p { font-weight: 500; font-style: italic; }
+
+        /* --- BUTTONS --- */
         .btn {
-            padding: 16px 40px; background: var(--primary-pink); color: white; border: none;
-            border-radius: 50px; font-weight: 700; cursor: pointer; transition: 0.3s;
+            padding: 16px 40px; background: var(--primary-pink);
+            color: white; border: none; border-radius: 50px;
+            font-weight: 700; cursor: pointer; transition: 0.3s;
         }
 
         #noBtn { background-color: #808080; position: absolute; left: 60%; transition: 0.15s ease-out; }
         #yesBtn { position: absolute; left: 25%; }
 
         @media (max-width: 600px) {
+            .memory-card { align-self: center !important; }
             #yesBtn { left: 10%; } #noBtn { left: 55%; }
-            #music-player { bottom: 10px; right: 10px; padding: 8px 15px; }
         }
 
     </style>
@@ -142,35 +114,55 @@
 
     <div id="music-player" class="hidden">
         <div class="album-art" id="album-art">🎵</div>
-        <div class="music-info">
-            <span>Our Song</span>
-            <small style="font-size: 10px; opacity: 0.7;">Now Playing...</small>
+        <div style="text-align: left;">
+            <span style="display:block; font-size:12px; font-weight:700;">Our Song</span>
+            <small style="font-size:10px; opacity:0.7;">Click to Play</small>
         </div>
-        <button class="play-btn" id="masterPlay" onclick="toggleMusic()">▶</button>
+        <button class="play-btn" id="masterPlay" onclick="toggleMusic()" style="background:var(--primary-pink); border:none; color:white; border-radius:50%; width:30px; height:30px; cursor:pointer;">▶</button>
         <audio id="main-audio" loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
     </div>
 
     <div id="password-screen">
-        <h1 style="font-family: 'Dancing Script';">Hold on!</h1>
-        <p>Enter the secret word to enter.</p>
+        <h1 style="font-family: 'Dancing Script';">One Last Check...</h1>
+        <p>What is my favorite nickname for you?</p>
         <input type="password" id="passInput" placeholder="Password...">
         <button class="btn" style="margin-top: 20px;" onclick="checkPass()">Unlock</button>
     </div>
 
     <div id="main-content" class="hidden">
+        
         <section class="hero">
             <h1>Hey Beautiful...</h1>
-            <p>I built this whole thing just for you.</p>
-            <p style="opacity: 0.5;">(Turn your volume up! 🔊)</p>
+            <p>I wanted to show you something.</p>
+            <p style="opacity: 0.5;">Scroll down slowly...</p>
+        </section>
+
+        <section id="memories">
+            <h2 style="font-family: 'Dancing Script'; font-size: 3rem;">Memory Lane</h2>
+            <div class="memory-container">
+                
+                <div class="memory-card">
+                    <img src="https://via.placeholder.com/400x300" alt="First Date"> <p>"Where it all began... I was so nervous."</p>
+                </div>
+
+                <div class="memory-card">
+                    <img src="https://via.placeholder.com/400x500" alt="Funny Moment"> <p>"That time you made me laugh until it hurt."</p>
+                </div>
+
+                <div class="memory-card">
+                    <img src="https://via.placeholder.com/400x300" alt="Special Day"> <p>"One of my favorite days with you."</p>
+                </div>
+
+            </div>
         </section>
 
         <section id="calculator">
             <div style="background: white; padding: 40px; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); width: 100%; max-width: 400px;">
                 <h2>Compatibility Scanner 🔍</h2>
                 <button class="btn" id="scan-btn" onclick="startScan()">Analyze Us</button>
-                <div id="result-box" class="hidden" style="margin-top: 20px; border: 2px dashed var(--primary-pink); border-radius: 15px; padding: 15px;">
-                    <h3 style="margin:0;">Result: 99.9% Match</h3>
-                    <p>The 0.1% error is due to you always stealing my food. 😂</p>
+                <div id="result-box" class="hidden" style="margin-top:20px; border:2px dashed var(--primary-pink); border-radius:15px; padding:15px;">
+                    <h3>Result: 99.9% Match</h3>
+                    <p>System detects you are 100% gorgeous.</p>
                 </div>
             </div>
         </section>
@@ -186,24 +178,33 @@
     </div>
 
     <script>
-        // 1. MUSIC LOGIC
+        // 1. SCROLL REVEAL LOGIC
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show');
+                }
+            });
+        }, { threshold: 0.2 });
+
+        document.querySelectorAll('.memory-card').forEach(card => observer.observe(card));
+
+        // 2. MUSIC LOGIC
         const audio = document.getElementById('main-audio');
         const playBtn = document.getElementById('masterPlay');
         const albumArt = document.getElementById('album-art');
 
         function toggleMusic() {
             if (audio.paused) {
-                audio.play();
-                playBtn.innerText = "⏸";
+                audio.play(); playBtn.innerText = "⏸";
                 albumArt.style.animationPlayState = 'running';
             } else {
-                audio.pause();
-                playBtn.innerText = "▶";
+                audio.pause(); playBtn.innerText = "▶";
                 albumArt.style.animationPlayState = 'paused';
             }
         }
 
-        // 2. HEART GENERATOR
+        // 3. HEART GENERATOR
         function createHeart() {
             const heart = document.createElement('div');
             heart.classList.add('heart');
@@ -217,23 +218,19 @@
         }
         setInterval(createHeart, 300);
 
-        // 3. PASSWORD GATE
+        // 4. PASSWORD & SCANNER
         function checkPass() {
             const input = document.getElementById('passInput').value;
             if(input.toLowerCase() === "munchkin") { 
                 document.getElementById('password-screen').style.display = 'none';
                 document.getElementById('main-content').classList.remove('hidden');
                 document.getElementById('music-player').classList.remove('hidden');
-                window.scrollTo(0,0);
             } else { alert("Wrong! 😂"); }
         }
 
-        // 4. SCANNER
         function startScan() {
             document.getElementById('scan-btn').style.display = 'none';
-            setTimeout(() => {
-                document.getElementById('result-box').classList.remove('hidden');
-            }, 2000);
+            setTimeout(() => { document.getElementById('result-box').classList.remove('hidden'); }, 1500);
         }
 
         // 5. RUNAWAY BUTTON
@@ -241,13 +238,10 @@
             const noBtn = document.getElementById('noBtn');
             const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - 20);
             const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - 20);
-            noBtn.style.left = x + 'px';
-            noBtn.style.top = y + 'px';
+            noBtn.style.left = x + 'px'; noBtn.style.top = y + 'px';
         }
 
-        function celebrate() {
-            alert("YAY! ❤️ I love you!");
-        }
+        function celebrate() { alert("YAY! ❤️ See you soon!"); }
     </script>
 </body>
 </html>
