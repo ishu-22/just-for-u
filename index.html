@@ -37,18 +37,19 @@
             to { transform: translateY(105vh) translateX(20px) rotate(360deg); opacity: 0; }
         }
 
-        /* --- PASSWORD GATE (FIXED CENTERING) --- */
+        /* --- PASSWORD GATE --- */
         #password-screen {
             position: fixed;
             top: 0; left: 0;
             width: 100vw; height: 100vh;
             background-color: var(--soft-pink);
-            display: flex !important;
+            display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 9999;
             text-align: center;
+            transition: opacity 0.5s ease;
         }
 
         .password-card {
@@ -65,7 +66,19 @@
         }
 
         #password-screen h1 { font-family: 'Dancing Script', cursive; font-size: 3rem; margin: 0; }
-        #passInput { padding: 15px; width: 80%; border: 2px solid var(--soft-pink); border-radius: 15px; outline: none; text-align: center; font-size: 1rem; }
+        #passInput { 
+            padding: 15px; 
+            width: 80%; 
+            border: 2px solid var(--soft-pink); 
+            border-radius: 15px; 
+            outline: none; 
+            text-align: center; 
+            font-size: 1rem; 
+        }
+
+        /* --- CLASSES TO HIDE CONTENT --- */
+        .force-hide { display: none !important; }
+        .hidden { display: none; }
 
         /* --- AESTHETIC MUSIC PLAYER --- */
         #music-player {
@@ -86,8 +99,6 @@
         @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
         /* --- LAYOUT SECTIONS --- */
-        .hidden { display: none; }
-        
         section {
             min-height: 100vh;
             display: flex; flex-direction: column;
@@ -137,7 +148,7 @@
 </head>
 <body>
 
-    <div id="music-player" class="hidden">
+    <div id="music-player" class="force-hide">
         <div class="album-art" id="album-art">🎵</div>
         <div style="text-align: left;">
             <span style="display:block; font-size:12px; font-weight:700;">Our Song</span>
@@ -151,7 +162,7 @@
         <div class="password-card">
             <h1>One Last Check...</h1>
             <p>What is my favorite nickname for you?</p>
-            <input type="password" id="passInput" placeholder="Password...">
+            <input type="password" id="passInput" placeholder="Password..." onkeydown="if(event.key==='Enter') checkPass()">
             <button class="btn" onclick="checkPass()">Unlock My Heart</button>
         </div>
     </div>
@@ -222,13 +233,17 @@
         // --- 2. PASSWORD ---
         function checkPass() {
             const input = document.getElementById('passInput').value;
-            // SET YOUR PASSWORD HERE
+            // SET YOUR PASSWORD HERE (ALL LOWERCASE)
             if(input.toLowerCase() === "munchkin") { 
-                document.getElementById('password-screen').style.display = 'none';
+                // Hide password screen
+                document.getElementById('password-screen').classList.add('force-hide');
+                // Show main content and music player
                 document.getElementById('main-content').classList.remove('hidden');
-                document.getElementById('music-player').classList.remove('hidden');
+                document.getElementById('music-player').classList.remove('force-hide');
                 window.scrollTo(0,0);
-            } else { alert("Wrong! 😂 Try again."); }
+            } else { 
+                alert("Wrong! 😂 Try again."); 
+            }
         }
 
         // --- 3. SCROLL REVEAL ---
