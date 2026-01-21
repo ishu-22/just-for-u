@@ -1,54 +1,283 @@
-/* --- IMPROVED PASSWORD GATE --- */
-#password-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: var(--soft-pink);
-    display: flex !important; /* Forces flexbox */
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    text-align: center;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Surprise ❤️</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@300;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-pink: #ff4d6d;
+            --soft-pink: #fff0f3;
+            --dark-pink: #c9184a;
+            --white: rgba(255, 255, 255, 0.9);
+        }
 
-.password-card {
-    background: white;
-    padding: 40px;
-    border-radius: 30px;
-    box-shadow: 0 15px 40px rgba(255, 77, 109, 0.15);
-    max-width: 400px;
-    width: 90%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px; /* Space between text, input, and button */
-}
+        body {
+            margin: 0; padding: 0;
+            font-family: 'Quicksand', sans-serif;
+            background-color: var(--soft-pink);
+            color: var(--dark-pink);
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+            position: relative;
+        }
 
-#password-screen h1 {
-    font-family: 'Dancing Script', cursive;
-    font-size: 3rem;
-    margin: 0;
-}
+        /* --- HEART ANIMATION --- */
+        .heart {
+            position: fixed; top: -10px;
+            color: var(--primary-pink);
+            user-select: none; z-index: -1;
+            animation: fall linear forwards;
+        }
 
-#password-screen p {
-    font-size: 1.1rem;
-    margin: 0;
-}
+        @keyframes fall {
+            to { transform: translateY(105vh) translateX(20px) rotate(360deg); opacity: 0; }
+        }
 
-#passInput {
-    padding: 15px;
-    width: 80%;
-    border: 2px solid var(--soft-pink);
-    background: #fffafa;
-    border-radius: 15px;
-    outline: none;
-    font-size: 1rem;
-    transition: 0.3s;
-}
+        /* --- PASSWORD GATE (FIXED CENTERING) --- */
+        #password-screen {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background-color: var(--soft-pink);
+            display: flex !important;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            text-align: center;
+        }
 
-#passInput:focus {
-    border-color: var(--primary-pink);
-}
+        .password-card {
+            background: white;
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 15px 40px rgba(255, 77, 109, 0.15);
+            max-width: 400px;
+            width: 85%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        #password-screen h1 { font-family: 'Dancing Script', cursive; font-size: 3rem; margin: 0; }
+        #passInput { padding: 15px; width: 80%; border: 2px solid var(--soft-pink); border-radius: 15px; outline: none; text-align: center; font-size: 1rem; }
+
+        /* --- AESTHETIC MUSIC PLAYER --- */
+        #music-player {
+            position: fixed; bottom: 20px; right: 20px;
+            background: var(--white); backdrop-filter: blur(10px);
+            padding: 10px 20px; border-radius: 50px;
+            display: flex; align-items: center; gap: 15px;
+            box-shadow: 0 8px 32px rgba(255, 77, 109, 0.2);
+            z-index: 1000; border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .album-art {
+            width: 40px; height: 40px; background: var(--primary-pink);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            color: white; animation: rotate 3s linear infinite; animation-play-state: paused;
+        }
+
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        /* --- LAYOUT SECTIONS --- */
+        .hidden { display: none; }
+        
+        section {
+            min-height: 100vh;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            padding: 60px 20px; text-align: center;
+        }
+
+        .hero h1 { font-family: 'Dancing Script'; font-size: clamp(3.5rem, 10vw, 5.5rem); margin: 0; }
+
+        /* --- MEMORY SCRAPBOOK --- */
+        .memory-container { max-width: 800px; width: 100%; display: flex; flex-direction: column; gap: 50px; }
+        .memory-card {
+            background: white; padding: 20px; border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            opacity: 0; transform: translateY(50px);
+            transition: all 0.8s ease-out; max-width: 350px;
+        }
+        .memory-card.show { opacity: 1; transform: translateY(0); }
+        .memory-card:nth-child(odd) { align-self: flex-start; transform: rotate(-2deg); }
+        .memory-card:nth-child(even) { align-self: flex-end; transform: rotate(2deg); }
+        .memory-card img { width: 100%; border-radius: 15px; margin-bottom: 15px; }
+
+        /* --- SASSY SCANNER --- */
+        .scanner-card {
+            background: white; padding: 40px; border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05); width: 100%; max-width: 400px;
+        }
+        .progress-container { width: 100%; height: 12px; background: #f0f0f0; border-radius: 10px; margin: 20px 0; overflow: hidden; display: none; }
+        #progress-bar { width: 0%; height: 100%; background: var(--primary-pink); transition: width 0.1s; }
+
+        /* --- RUNAWAY BUTTONS --- */
+        .btn-container { position: relative; width: 100%; height: 250px; margin-top: 40px; }
+        .btn {
+            padding: 16px 40px; background: var(--primary-pink); color: white; border: none;
+            border-radius: 50px; font-weight: 700; cursor: pointer; transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(255, 77, 109, 0.3);
+        }
+        #yesBtn { position: absolute; left: 20%; }
+        #noBtn { position: absolute; left: 60%; background-color: #808080; transition: 0.15s ease-out; }
+
+        @media (max-width: 600px) {
+            .memory-card { align-self: center !important; }
+            #yesBtn { left: 10%; }
+            #noBtn { left: 55%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="music-player" class="hidden">
+        <div class="album-art" id="album-art">🎵</div>
+        <div style="text-align: left;">
+            <span style="display:block; font-size:12px; font-weight:700;">Our Song</span>
+            <small style="font-size:10px; opacity:0.7;">Click to Play</small>
+        </div>
+        <button onclick="toggleMusic()" id="masterPlay" style="background:var(--primary-pink); border:none; color:white; border-radius:50%; width:30px; height:30px; cursor:pointer;">▶</button>
+        <audio id="main-audio" loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+    </div>
+
+    <div id="password-screen">
+        <div class="password-card">
+            <h1>One Last Check...</h1>
+            <p>What is my favorite nickname for you?</p>
+            <input type="password" id="passInput" placeholder="Password...">
+            <button class="btn" onclick="checkPass()">Unlock My Heart</button>
+        </div>
+    </div>
+
+    <div id="main-content" class="hidden">
+        
+        <section class="hero">
+            <h1>Hey Beautiful...</h1>
+            <p style="font-size: 1.3rem;">I built this whole thing just for you.</p>
+            <p style="opacity: 0.5;">(Turn your volume up! 🔊)</p>
+            <p style="margin-top: 50px; font-size: 0.9rem;">Scroll down to begin...</p>
+        </section>
+
+        <section id="memories">
+            <h2 style="font-family: 'Dancing Script'; font-size: 3.5rem;">Memory Lane</h2>
+            <div class="memory-container">
+                <div class="memory-card">
+                    <img src="https://via.placeholder.com/400x300" alt="Memory 1">
+                    <p>"One of our first adventures together."</p>
+                </div>
+                <div class="memory-card">
+                    <img src="https://via.placeholder.com/400x300" alt="Memory 2">
+                    <p>"This moment always makes me smile."</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="scanner">
+            <div class="scanner-card">
+                <h2>Relationship Scanner 🔍</h2>
+                <div class="progress-container"><div id="progress-bar"></div></div>
+                <p id="status-text" style="font-weight:700;">Ready to scan...</p>
+                <button class="btn" id="scan-btn" onclick="startScan()">Analyze Us</button>
+
+                <div id="result-box" class="hidden" style="margin-top:20px; border:2px dashed var(--primary-pink); border-radius:15px; padding:15px;">
+                    <h3 style="margin:0;">Result: 99.9% Match</h3>
+                    <p>Error: System detects you are 100% more likely to steal my hoodies. 😂</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="final-question">
+            <h1 style="font-family: 'Dancing Script'; font-size: 4rem;">Wait...</h1>
+            <p style="font-size: 1.6rem;">Will you be my Valentine?</p>
+            <div class="btn-container">
+                <button class="btn" id="yesBtn" onclick="celebrate()">YES</button>
+                <button class="btn" id="noBtn" onmouseover="moveButton()" onclick="moveButton()">NO</button>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        // --- 1. HEARTS ---
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 2 + 's';
+            heart.style.opacity = Math.random();
+            heart.style.fontSize = Math.random() * 20 + 10 + 'px';
+            document.body.appendChild(heart);
+            setTimeout(() => { heart.remove(); }, 5000);
+        }
+        setInterval(createHeart, 300);
+
+        // --- 2. PASSWORD ---
+        function checkPass() {
+            const input = document.getElementById('passInput').value;
+            // SET YOUR PASSWORD HERE
+            if(input.toLowerCase() === "munchkin") { 
+                document.getElementById('password-screen').style.display = 'none';
+                document.getElementById('main-content').classList.remove('hidden');
+                document.getElementById('music-player').classList.remove('hidden');
+                window.scrollTo(0,0);
+            } else { alert("Wrong! 😂 Try again."); }
+        }
+
+        // --- 3. SCROLL REVEAL ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('show'); });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.memory-card').forEach(card => observer.observe(card));
+
+        // --- 4. MUSIC ---
+        const audio = document.getElementById('main-audio');
+        const playBtn = document.getElementById('masterPlay');
+        const albumArt = document.getElementById('album-art');
+        function toggleMusic() {
+            if (audio.paused) {
+                audio.play(); playBtn.innerText = "⏸";
+                albumArt.style.animationPlayState = 'running';
+            } else {
+                audio.pause(); playBtn.innerText = "▶";
+                albumArt.style.animationPlayState = 'paused';
+            }
+        }
+
+        // --- 5. SCANNER ---
+        function startScan() {
+            const btn = document.getElementById('scan-btn');
+            const bar = document.getElementById('progress-bar');
+            document.querySelector('.progress-container').style.display = 'block';
+            btn.style.display = 'none';
+            let width = 0;
+            const id = setInterval(() => {
+                if (width >= 100) {
+                    clearInterval(id);
+                    document.getElementById('result-box').classList.remove('hidden');
+                    document.getElementById('status-text').innerText = "Scan Complete!";
+                } else {
+                    width++; bar.style.width = width + '%';
+                }
+            }, 50);
+        }
+
+        // --- 6. RUNAWAY BUTTON ---
+        function moveButton() {
+            const noBtn = document.getElementById('noBtn');
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - 30);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - 30);
+            noBtn.style.left = x + 'px'; noBtn.style.top = y + 'px';
+        }
+
+        function celebrate() { alert("YAY! ❤️ Best choice ever! See you soon!"); }
+    </script>
+</body>
+</html>
