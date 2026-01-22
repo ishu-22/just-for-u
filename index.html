@@ -3,154 +3,159 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Special Surprise ❤️</title>
+    <title>For My Favorite Person ❤️</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@300;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@300;500;700&family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
     
     <style>
         :root {
             --primary-pink: #ff4d6d;
             --soft-pink: #fff0f3;
             --dark-pink: #c9184a;
-            --white: rgba(255, 255, 255, 0.9);
+            --accent-gold: #ffb700;
+            --glass-white: rgba(255, 255, 255, 0.8);
+            --glass-border: rgba(255, 255, 255, 0.5);
         }
+
+        /* --- SMOOTH SCROLL & CUSTOM SCROLLBAR --- */
+        html { scroll-behavior: smooth; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--soft-pink); }
+        ::-webkit-scrollbar-thumb { background: var(--primary-pink); border-radius: 10px; }
 
         body {
             margin: 0; padding: 0;
             font-family: 'Quicksand', sans-serif;
-            background-color: var(--soft-pink);
+            background: linear-gradient(135deg, #fff0f3 0%, #ffccd5 100%);
             color: var(--dark-pink);
-            scroll-behavior: smooth;
             overflow-x: hidden;
             position: relative;
         }
 
-        /* --- HEART ANIMATION --- */
+        /* --- FLOATING AMBIANCE --- */
         .heart {
             position: fixed; top: -10px;
             color: var(--primary-pink);
             user-select: none; z-index: -1;
+            filter: drop-shadow(0 0 5px rgba(255, 77, 109, 0.3));
             animation: fall linear forwards;
         }
 
         @keyframes fall {
-            to { transform: translateY(105vh) translateX(20px) rotate(360deg); opacity: 0; }
+            to { transform: translateY(105vh) translateX(30px) rotate(360deg); opacity: 0; }
         }
 
-        /* --- PASSWORD GATE --- */
+        /* --- GLASS CARD DESIGN --- */
+        .glass-card {
+            background: var(--glass-white);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            box-shadow: 0 15px 35px rgba(255, 77, 109, 0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 45px rgba(255, 77, 109, 0.25);
+        }
+
+        /* --- PASSWORD SCREEN --- */
         #password-screen {
             position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            background-color: var(--soft-pink);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            text-align: center;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: linear-gradient(135deg, #fff0f3 0%, #ffccd5 100%);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 10000;
         }
 
-        .password-card {
-            background: white;
-            padding: 40px;
-            border-radius: 30px;
-            box-shadow: 0 15px 40px rgba(255, 77, 109, 0.15);
-            max-width: 400px;
-            width: 85%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .force-hide { display: none !important; }
-        .hidden { display: none; }
-
-        /* --- AESTHETIC MUSIC PLAYER --- */
+        /* --- MUSIC PLAYER --- */
         #music-player {
-            position: fixed; bottom: 20px; right: 20px;
-            background: var(--white); backdrop-filter: blur(10px);
-            padding: 10px 20px; border-radius: 50px;
+            position: fixed; bottom: 25px; right: 25px;
+            background: var(--glass-white); backdrop-filter: blur(10px);
+            padding: 12px 25px; border-radius: 50px;
             display: flex; align-items: center; gap: 15px;
-            box-shadow: 0 8px 32px rgba(255, 77, 109, 0.2);
-            z-index: 1000; border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            z-index: 1000; border: 1px solid var(--glass-border);
         }
 
         .album-art {
-            width: 40px; height: 40px; background: var(--primary-pink);
+            width: 45px; height: 45px; background: linear-gradient(45deg, var(--primary-pink), var(--accent-gold));
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            color: white; animation: rotate 3s linear infinite; animation-play-state: paused;
+            color: white; animation: rotate 4s linear infinite; animation-play-state: paused;
+            box-shadow: 0 0 15px rgba(255, 77, 109, 0.4);
         }
 
         @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        /* --- LAYOUT SECTIONS --- */
-        section {
-            min-height: 100vh;
-            display: flex; flex-direction: column;
-            justify-content: center; align-items: center;
-            padding: 60px 20px; text-align: center;
+        /* --- HERO SECTION --- */
+        section { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 80px 20px; text-align: center; }
+        
+        .hero h1 { 
+            font-family: 'Dancing Script', cursive; 
+            font-size: clamp(4rem, 12vw, 6.5rem); 
+            margin: 0;
+            background: linear-gradient(45deg, var(--dark-pink), var(--primary-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.1));
         }
 
-        .hero h1 { font-family: 'Dancing Script'; font-size: clamp(3.5rem, 10vw, 5.5rem); margin: 0; }
-
-        /* --- SINGLE TIMER SECTION --- */
-        .timer-card {
-            background: white; padding: 40px; border-radius: 30px;
-            box-shadow: 0 15px 40px rgba(255, 77, 109, 0.1);
-            max-width: 500px; width: 100%;
-        }
-
-        .timer-card h3 { font-size: 1.2rem; margin-bottom: 20px; opacity: 0.8; }
-        .time-display { font-size: 2.2rem; font-weight: 700; color: var(--primary-pink); }
-
-        /* --- MEMORIES SCRAPBOOK --- */
-        .memory-container { max-width: 800px; width: 100%; display: flex; flex-direction: column; gap: 50px; }
+        /* --- SCRAPBOOK MEMORIES --- */
         .memory-card {
-            background: white; padding: 20px; border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            opacity: 0; transform: translateY(50px);
-            transition: all 0.8s ease-out; max-width: 350px;
+            background: white; padding: 15px; border-radius: 5px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            opacity: 0; transform: translateY(40px) scale(0.95);
+            transition: all 0.9s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+            max-width: 320px;
+            border-bottom: 50px solid white; /* Polaroid Style */
         }
-        .memory-card.show { opacity: 1; transform: translateY(0); }
-        .memory-card:nth-child(odd) { align-self: flex-start; transform: rotate(-2deg); }
-        .memory-card:nth-child(even) { align-self: flex-end; transform: rotate(2deg); }
-        .memory-card img { width: 100%; border-radius: 15px; margin-bottom: 15px; }
+        .memory-card.show { opacity: 1; transform: translateY(0) scale(1); }
+        .memory-card img { width: 100%; border-radius: 2px; height: 250px; object-fit: cover; }
 
         /* --- BUTTONS --- */
         .btn {
-            padding: 16px 40px; background: var(--primary-pink); color: white; border: none;
-            border-radius: 50px; font-weight: 700; cursor: pointer; transition: 0.3s;
+            padding: 18px 45px; background: var(--primary-pink); color: white; border: none;
+            border-radius: 50px; font-weight: 700; cursor: pointer; font-size: 1.1rem;
+            text-transform: uppercase; letter-spacing: 1px;
+            box-shadow: 0 8px 20px rgba(255, 77, 109, 0.3);
+            transition: all 0.3s ease;
         }
 
-        #yesBtn { position: absolute; left: 20%; }
-        #noBtn { position: absolute; left: 60%; background-color: #808080; transition: 0.15s ease-out; }
+        .btn:hover { background: var(--dark-pink); transform: translateY(-3px); box-shadow: 0 12px 25px rgba(255, 77, 109, 0.4); }
+
+        #yesBtn { position: absolute; left: 20%; background: linear-gradient(45deg, #ff4d6d, #ff758c); }
+        #noBtn { position: absolute; left: 60%; background: #9b9b9b; transition: 0.1s; }
+
+        .hidden { display: none !important; }
 
         @media (max-width: 600px) {
             #yesBtn { left: 10%; } #noBtn { left: 55%; }
-            .time-display { font-size: 1.6rem; }
+            .hero h1 { font-size: 3.5rem; }
         }
     </style>
 </head>
 <body>
 
-    <div id="music-player" class="force-hide">
+    <div id="music-player" class="hidden">
         <div class="album-art" id="album-art">🎵</div>
         <div style="text-align: left;">
-            <span style="display:block; font-size:12px; font-weight:700;">Our Song</span>
-            <small style="font-size:10px; opacity:0.7;">Click to Play</small>
+            <span style="display:block; font-size:12px; font-weight:700; letter-spacing:1px;">OUR PLAYLIST</span>
+            <small style="font-size:10px; opacity:0.6;">Click to feel the vibe</small>
         </div>
-        <button onclick="toggleMusic()" id="masterPlay" style="background:var(--primary-pink); border:none; color:white; border-radius:50%; width:30px; height:30px; cursor:pointer;">▶</button>
+        <button onclick="toggleMusic()" id="masterPlay" style="background:var(--primary-pink); border:none; color:white; border-radius:50%; width:35px; height:35px; cursor:pointer; font-size: 14px;">▶</button>
         <audio id="main-audio" loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
     </div>
 
     <div id="password-screen">
-        <div class="password-card">
-            <h1 style="font-family: 'Dancing Script';">Hey Gorgeous!</h1>
-            <p>What is my favorite nickname for you?</p>
-            <input type="password" id="passInput" placeholder="Password..." onkeydown="if(event.key==='Enter') checkPass()">
-            <button class="btn" onclick="checkPass()">Unlock My Heart</button>
+        <div class="glass-card" style="padding: 50px; text-align: center; width: 85%; max-width: 400px;">
+            <h1 style="font-family: 'Dancing Script'; font-size: 3rem; margin-bottom: 10px;">Who are you?</h1>
+            <p style="font-family: 'Montserrat'; font-weight: 300; margin-bottom: 25px;">Enter the secret word to unlock my heart.</p>
+            <input type="password" id="passInput" placeholder="Password..." 
+                   style="padding: 15px; width: 80%; border: 1px solid #ddd; border-radius: 15px; text-align: center; outline: none; margin-bottom: 25px;"
+                   onkeydown="if(event.key==='Enter') checkPass()">
+            <button class="btn" onclick="checkPass()">Unlock</button>
         </div>
     </div>
 
@@ -158,59 +163,49 @@
         
         <section class="hero">
             <h1>Hey Beautiful...</h1>
-            <p style="font-size: 1.3rem;">I built this whole thing just for you.</p>
-            <p style="margin-top: 50px; font-size: 0.9rem; opacity: 0.6;">Scroll down to see our story...</p>
+            <p style="font-family: 'Montserrat'; font-size: 1.2rem; letter-spacing: 2px; opacity: 0.8;">I MADE THIS JUST FOR YOU</p>
+            <div style="margin-top: 40px; animation: bounce 2s infinite;">
+                <p style="font-size: 0.9rem; opacity: 0.5;">SCROLL DOWN</p>
+                <span style="font-size: 20px;">↓</span>
+            </div>
         </section>
 
         <section id="timeline">
-            <h2 style="font-family: 'Dancing Script'; font-size: 3rem; margin-bottom: 40px;">The Journey So Far</h2>
-            <div class="timer-card">
-                <h3>Time Since I Confessed ❤️</h3>
-                <div id="confession-timer" class="time-display">Calculating...</div>
-                <p style="margin-top: 15px; font-size: 0.9rem; opacity: 0.7;">(22nd December 2025)</p>
+            <div class="glass-card" style="padding: 50px; width: 90%; max-width: 600px;">
+                <h2 style="font-family: 'Dancing Script'; font-size: 3rem; margin-bottom: 20px;">The Journey So Far</h2>
+                <div id="confession-timer" style="font-size: 2.2rem; font-weight: 700; color: var(--primary-pink); font-family: 'Montserrat';">...</div>
+                <p style="margin-top: 15px; opacity: 0.6; font-weight: 300;">Since the day I confessed my feelings <br>(Dec 22, 2025)</p>
             </div>
         </section>
 
         <section id="memories">
-            <h2 style="font-family: 'Dancing Script'; font-size: 3rem;">Memory Lane</h2>
-            <div class="memory-container">
-                <div class="memory-card">
-                    <img src="https://via.placeholder.com/400x300" alt="Memory 1">
-                    <p>"One of our first adventures together."</p>
+            <h2 style="font-family: 'Dancing Script'; font-size: 3.5rem; margin-bottom: 50px;">Memory Lane</h2>
+            <div style="display: flex; flex-direction: column; gap: 80px; width: 100%; max-width: 800px;">
+                <div class="memory-card" style="align-self: flex-start; transform: rotate(-3deg);">
+                    <img src="https://via.placeholder.com/400x500" alt="Memory">
+                    <p style="font-family: 'Dancing Script'; font-size: 1.5rem; margin-top: 15px;">Our first date ✨</p>
                 </div>
-                <div class="memory-card">
-                    <img src="https://via.placeholder.com/400x300" alt="Memory 2">
-                    <p>"This moment always makes me smile."</p>
+                <div class="memory-card" style="align-self: flex-end; transform: rotate(3deg);">
+                    <img src="https://via.placeholder.com/400x500" alt="Memory">
+                    <p style="font-family: 'Dancing Script'; font-size: 1.5rem; margin-top: 15px;">Your favorite laugh 😂</p>
                 </div>
             </div>
         </section>
 
         <section id="reasons">
-            <div style="background: white; padding: 40px; border-radius: 30px; box-shadow: 0 15px 40px rgba(255, 77, 109, 0.1); max-width: 500px; width: 100%;">
-                <h2 style="font-family: 'Dancing Script'; font-size: 2.5rem; margin-top: 0;">Why I Love You</h2>
-                <p id="reason-text" style="font-size: 1.3rem; min-height: 60px;">Click the heart...</p>
-                <button onclick="getRandomReason()" style="background:none; border:none; font-size:3rem; cursor:pointer;">❤️</button>
+            <div class="glass-card" style="padding: 50px; max-width: 500px; width: 100%;">
+                <h2 style="font-family: 'Dancing Script'; font-size: 2.5rem; margin-top: 0;">Reasons Why I Love You</h2>
+                <div id="reason-text" style="font-size: 1.4rem; min-height: 80px; display: flex; align-items: center; justify-content: center; margin-bottom: 30px; font-weight: 300;">
+                    Click the heart to see...
+                </div>
+                <button onclick="getRandomReason()" style="background:none; border:none; font-size:4rem; cursor:pointer; transition: 0.3s;" id="heart-beat">❤️</button>
             </div>
         </section>
 
-        <section id="scanner">
-            <div style="background: white; padding: 40px; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); width: 100%; max-width: 400px;">
-                <h2>Compatibility Scanner 🔍</h2>
-                <div id="prog-cont" style="width: 100%; height: 12px; background: #f0f0f0; border-radius: 10px; margin: 20px 0; overflow: hidden; display: none;">
-                    <div id="prog-bar" style="width: 0%; height: 100%; background: var(--primary-pink); transition: width 0.1s;"></div>
-                </div>
-                <button class="btn" id="scan-btn" onclick="startScan()">Analyze Us</button>
-                <div id="result-box" class="hidden" style="margin-top:20px; border:2px dashed var(--primary-pink); border-radius:15px; padding:15px;">
-                    <h3 style="margin:0;">Result: 99.9% Match</h3>
-                    <p>Error: System detects you are 100% gorgeous.</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="final-question">
-            <h1 style="font-family: 'Dancing Script'; font-size: 4rem;">Wait...</h1>
-            <p style="font-size: 1.5rem;">Will you be my Valentine?</p>
-            <div style="position: relative; width: 100%; height: 250px; margin-top: 40px;">
+        <section id="final-question" style="position: relative; width: 100vw; height: 100vh;">
+            <h1 style="font-family: 'Dancing Script'; font-size: 4.5rem; margin: 0;">One last thing...</h1>
+            <p style="font-size: 1.8rem; font-family: 'Montserrat'; font-weight: 300;">Will you be my Valentine?</p>
+            <div style="position: relative; width: 100%; height: 300px; margin-top: 50px;">
                 <button class="btn" id="yesBtn" onclick="celebrate()">YES</button>
                 <button class="btn" id="noBtn" onmouseover="moveButton()" onclick="moveButton()">NO</button>
             </div>
@@ -219,95 +214,82 @@
     </div>
 
     <script>
-        // --- 1. LIVE TIMER (CONFESSION) ---
-        function updateTimers() {
-            const now = new Date();
+        // 1. TIMER LOGIC
+        function updateTimer() {
             const confessionDate = new Date('December 22, 2025 00:00:00');
+            const now = new Date();
             const diff = now - confessionDate;
-
             const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const secs = Math.floor((diff % (1000 * 60)) / 1000);
-
-            document.getElementById('confession-timer').innerText = 
-                `${days}d ${hours}h ${mins}m ${secs}s`;
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const mins = Math.floor((diff / 1000 / 60) % 60);
+            const secs = Math.floor((diff / 1000) % 60);
+            document.getElementById('confession-timer').innerText = `${days}d ${hours}h ${mins}m ${secs}s`;
         }
-        setInterval(updateTimers, 1000);
+        setInterval(updateTimer, 1000);
 
-        // --- 2. HEARTS ---
+        // 2. HEARTS ANIMATION
         function createHeart() {
             const heart = document.createElement('div');
             heart.classList.add('heart');
             heart.innerHTML = '❤️';
             heart.style.left = Math.random() * 100 + 'vw';
             heart.style.animationDuration = Math.random() * 3 + 2 + 's';
-            heart.style.opacity = Math.random();
-            heart.style.fontSize = Math.random() * 20 + 10 + 'px';
+            heart.style.opacity = Math.random() * 0.5 + 0.5;
+            heart.style.fontSize = Math.random() * 15 + 10 + 'px';
             document.body.appendChild(heart);
-            setTimeout(() => { heart.remove(); }, 5000);
+            setTimeout(() => heart.remove(), 5000);
         }
         setInterval(createHeart, 300);
 
-        // --- 3. PASSWORD ---
+        // 3. PASSWORD SYSTEM
         function checkPass() {
-            const input = document.getElementById('passInput').value;
-            if(input.toLowerCase() === "munchkin") { 
-                document.getElementById('password-screen').classList.add('force-hide');
+            const input = document.getElementById('passInput').value.toLowerCase();
+            if(input === "munchkin") { // Change this to your nickname
+                document.getElementById('password-screen').classList.add('hidden');
                 document.getElementById('main-content').classList.remove('hidden');
-                document.getElementById('music-player').classList.remove('force-hide');
+                document.getElementById('music-player').classList.remove('hidden');
                 window.scrollTo(0,0);
-            } else { alert("Wrong! 😂 Try again."); }
+            } else { alert("ACCESS DENIED. Incorrect identity! 😂"); }
         }
 
-        // --- 4. REASONS ---
+        // 4. REASONS RANDOMIZER
         const reasons = [
-            "Your smile makes my whole day brighter. ✨",
-            "The way you care about the little things. ❤️",
-            "Because you're my best friend. 🤗",
-            "Your laugh is my favorite sound. 🎵",
-            "How gorgeous you look even when you're sleepy. 😴"
+            "Your smile makes the world feel right. ✨",
+            "The way you care about the tiniest details. ❤️",
+            "You are my absolute best friend. 🤗",
+            "I love your laugh more than any song. 🎵",
+            "You are gorgeous, even when you wake up. 😴",
+            "The way you support me in everything I do. 🚀",
+            "Because you're you, and that's enough for me. 💖"
         ];
         function getRandomReason() {
-            const randomReason = reasons[Math.floor(Math.random() * reasons.length)];
-            document.getElementById('reason-text').innerText = randomReason;
+            const text = document.getElementById('reason-text');
+            text.style.opacity = 0;
+            setTimeout(() => {
+                text.innerText = reasons[Math.floor(Math.random() * reasons.length)];
+                text.style.opacity = 1;
+            }, 300);
         }
 
-        // --- 5. SCROLL REVEAL ---
+        // 5. SCROLL REVEAL
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('show'); });
         }, { threshold: 0.1 });
         document.querySelectorAll('.memory-card').forEach(card => observer.observe(card));
 
-        // --- 6. MUSIC ---
+        // 6. MUSIC
         const audio = document.getElementById('main-audio');
         const albumArt = document.getElementById('album-art');
+        const playBtn = document.getElementById('masterPlay');
         function toggleMusic() {
             if (audio.paused) {
-                audio.play(); albumArt.style.animationPlayState = 'running';
+                audio.play(); albumArt.style.animationPlayState = 'running'; playBtn.innerText = "⏸";
             } else {
-                audio.pause(); albumArt.style.animationPlayState = 'paused';
+                audio.pause(); albumArt.style.animationPlayState = 'paused'; playBtn.innerText = "▶";
             }
         }
 
-        // --- 7. SCANNER ---
-        function startScan() {
-            const btn = document.getElementById('scan-btn');
-            const bar = document.getElementById('prog-bar');
-            document.getElementById('prog-cont').style.display = 'block';
-            btn.style.display = 'none';
-            let width = 0;
-            const id = setInterval(() => {
-                if (width >= 100) {
-                    clearInterval(id);
-                    document.getElementById('result-box').classList.remove('hidden');
-                } else {
-                    width++; bar.style.width = width + '%';
-                }
-            }, 50);
-        }
-
-        // --- 8. RUNAWAY BUTTON ---
+        // 7. RUNAWAY BUTTON
         function moveButton() {
             const noBtn = document.getElementById('noBtn');
             const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - 30);
@@ -315,7 +297,9 @@
             noBtn.style.left = x + 'px'; noBtn.style.top = y + 'px';
         }
 
-        function celebrate() { alert("YAY! ❤️ See you soon!"); }
+        function celebrate() {
+            alert("YAY! ❤️ Best decision ever. I love you! Check your phone. 😉");
+        }
     </script>
 </body>
 </html>
