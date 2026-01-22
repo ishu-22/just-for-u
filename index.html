@@ -64,7 +64,6 @@
             gap: 20px;
         }
 
-        /* --- CLASSES TO HIDE CONTENT --- */
         .force-hide { display: none !important; }
         .hidden { display: none; }
 
@@ -96,8 +95,22 @@
 
         .hero h1 { font-family: 'Dancing Script'; font-size: clamp(3.5rem, 10vw, 5.5rem); margin: 0; }
 
-        /* --- MEMORY SCRAPBOOK --- */
-        .memory-container { max-width: 800px; width: 100%; display: flex; flex-direction: column; gap: 50px; }
+        /* --- TIMER SECTION --- */
+        .timer-container {
+            display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;
+            max-width: 900px; width: 100%;
+        }
+
+        .timer-card {
+            background: white; padding: 30px; border-radius: 25px;
+            box-shadow: 0 10px 25px rgba(255, 77, 109, 0.1);
+            flex: 1; min-width: 280px;
+        }
+
+        .timer-card h3 { font-size: 1.1rem; margin-bottom: 15px; opacity: 0.8; }
+        .time-display { font-size: 1.8rem; font-weight: 700; color: var(--primary-pink); }
+
+        /* --- REASONS & MEMORIES --- */
         .memory-card {
             background: white; padding: 20px; border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
@@ -109,49 +122,17 @@
         .memory-card:nth-child(even) { align-self: flex-end; transform: rotate(2deg); }
         .memory-card img { width: 100%; border-radius: 15px; margin-bottom: 15px; }
 
-        /* --- REASONS RANDOMIZER --- */
-        .reason-card {
-            background: white; padding: 40px; border-radius: 30px;
-            box-shadow: 0 15px 40px rgba(255, 77, 109, 0.1);
-            max-width: 500px; width: 100%; position: relative;
-        }
-
-        #reason-text {
-            font-size: 1.4rem; font-weight: 500; min-height: 80px;
-            display: flex; align-items: center; justify-content: center;
-            transition: opacity 0.3s;
-        }
-
-        .heart-btn {
-            font-size: 3rem; background: none; border: none;
-            cursor: pointer; transition: transform 0.2s;
-            filter: drop-shadow(0 5px 10px rgba(255, 77, 109, 0.3));
-        }
-
-        .heart-btn:active { transform: scale(0.8); }
-
-        /* --- SASSY SCANNER --- */
-        .scanner-card {
-            background: white; padding: 40px; border-radius: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05); width: 100%; max-width: 400px;
-        }
-        .progress-container { width: 100%; height: 12px; background: #f0f0f0; border-radius: 10px; margin: 20px 0; overflow: hidden; display: none; }
-        #progress-bar { width: 0%; height: 100%; background: var(--primary-pink); transition: width 0.1s; }
-
-        /* --- RUNAWAY BUTTONS --- */
-        .btn-container { position: relative; width: 100%; height: 250px; margin-top: 40px; }
         .btn {
             padding: 16px 40px; background: var(--primary-pink); color: white; border: none;
             border-radius: 50px; font-weight: 700; cursor: pointer; transition: 0.3s;
-            box-shadow: 0 4px 15px rgba(255, 77, 109, 0.3);
         }
+
         #yesBtn { position: absolute; left: 20%; }
         #noBtn { position: absolute; left: 60%; background-color: #808080; transition: 0.15s ease-out; }
 
         @media (max-width: 600px) {
-            .memory-card { align-self: center !important; }
-            #yesBtn { left: 10%; }
-            #noBtn { left: 55%; }
+            #yesBtn { left: 10%; } #noBtn { left: 55%; }
+            .timer-card { min-width: 100%; }
         }
     </style>
 </head>
@@ -169,8 +150,8 @@
 
     <div id="password-screen">
         <div class="password-card">
-            <h1 style="font-family: 'Dancing Script';">Hold on!</h1>
-            <p>Verify your identity to enter.</p>
+            <h1 style="font-family: 'Dancing Script';">Hey You!</h1>
+            <p>What is my favorite nickname for you?</p>
             <input type="password" id="passInput" placeholder="Password..." onkeydown="if(event.key==='Enter') checkPass()">
             <button class="btn" onclick="checkPass()">Unlock My Heart</button>
         </div>
@@ -181,12 +162,27 @@
         <section class="hero">
             <h1>Hey Beautiful...</h1>
             <p style="font-size: 1.3rem;">I built this whole thing just for you.</p>
-            <p style="opacity: 0.5;">(Turn your volume up! 🔊)</p>
-            <p style="margin-top: 50px; font-size: 0.9rem;">Scroll down to begin...</p>
+            <p style="margin-top: 50px; font-size: 0.9rem; opacity: 0.6;">Scroll down to see our story...</p>
+        </section>
+
+        <section id="timeline">
+            <h2 style="font-family: 'Dancing Script'; font-size: 3rem; margin-bottom: 40px;">The Journey So Far</h2>
+            <div class="timer-container">
+                <div class="timer-card">
+                    <h3>Time Since I Confessed ❤️</h3>
+                    <div id="confession-timer" class="time-display">Calculating...</div>
+                    <p style="margin-top: 10px; font-size: 0.9rem; opacity: 0.7;">(22nd December 2025)</p>
+                </div>
+                <div class="timer-card">
+                    <h3>Until our Valentine's Date 🌹</h3>
+                    <div id="valentine-timer" class="time-display">Calculating...</div>
+                    <p style="margin-top: 10px; font-size: 0.9rem; opacity: 0.7;">(14th February 2026)</p>
+                </div>
+            </div>
         </section>
 
         <section id="memories">
-            <h2 style="font-family: 'Dancing Script'; font-size: 3.5rem;">Memory Lane</h2>
+            <h2 style="font-family: 'Dancing Script'; font-size: 3rem;">Memory Lane</h2>
             <div class="memory-container">
                 <div class="memory-card">
                     <img src="https://via.placeholder.com/400x300" alt="Memory 1">
@@ -200,24 +196,23 @@
         </section>
 
         <section id="reasons">
-            <h2 style="font-family: 'Dancing Script'; font-size: 3rem;">Why I Love You</h2>
-            <div class="reason-card">
-                <p id="reason-text">Click the heart to see a reason...</p>
-                <button class="heart-btn" onclick="getRandomReason()">❤️</button>
-                <p style="margin-top: 20px; font-size: 0.8rem; opacity: 0.6;">(Every click is a new reason)</p>
+            <div style="background: white; padding: 40px; border-radius: 30px; box-shadow: 0 15px 40px rgba(255, 77, 109, 0.1); max-width: 500px; width: 100%;">
+                <h2 style="font-family: 'Dancing Script'; font-size: 2.5rem; margin-top: 0;">Why I Love You</h2>
+                <p id="reason-text" style="font-size: 1.3rem; min-height: 60px;">Click the heart...</p>
+                <button onclick="getRandomReason()" style="background:none; border:none; font-size:3rem; cursor:pointer;">❤️</button>
             </div>
         </section>
 
         <section id="scanner">
-            <div class="scanner-card">
-                <h2>Relationship Scanner 🔍</h2>
-                <div class="progress-container"><div id="progress-bar"></div></div>
-                <p id="status-text" style="font-weight:700;">Ready to scan...</p>
+            <div style="background: white; padding: 40px; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); width: 100%; max-width: 400px;">
+                <h2>Compatibility Scanner 🔍</h2>
+                <div id="prog-cont" style="width: 100%; height: 12px; background: #f0f0f0; border-radius: 10px; margin: 20px 0; overflow: hidden; display: none;">
+                    <div id="prog-bar" style="width: 0%; height: 100%; background: var(--primary-pink); transition: width 0.1s;"></div>
+                </div>
                 <button class="btn" id="scan-btn" onclick="startScan()">Analyze Us</button>
-
                 <div id="result-box" class="hidden" style="margin-top:20px; border:2px dashed var(--primary-pink); border-radius:15px; padding:15px;">
                     <h3 style="margin:0;">Result: 99.9% Match</h3>
-                    <p>Error: System detects you are 100% more likely to steal my hoodies. 😂</p>
+                    <p>Error: System detects you are 100% gorgeous.</p>
                 </div>
             </div>
         </section>
@@ -225,7 +220,7 @@
         <section id="final-question">
             <h1 style="font-family: 'Dancing Script'; font-size: 4rem;">Wait...</h1>
             <p style="font-size: 1.6rem;">Will you be my Valentine?</p>
-            <div class="btn-container">
+            <div style="position: relative; width: 100%; height: 250px; margin-top: 40px;">
                 <button class="btn" id="yesBtn" onclick="celebrate()">YES</button>
                 <button class="btn" id="noBtn" onmouseover="moveButton()" onclick="moveButton()">NO</button>
             </div>
@@ -234,7 +229,33 @@
     </div>
 
     <script>
-        // --- 1. HEARTS ---
+        // --- 1. LIVE TIMERS ---
+        function updateTimers() {
+            const now = new Date();
+            
+            // Confession Date: Dec 22, 2025
+            const confessionDate = new Date('December 22, 2025 00:00:00');
+            const diffConfession = now - confessionDate;
+            
+            // Valentine Date: Feb 14, 2026
+            const valentineDate = new Date('February 14, 2026 00:00:00');
+            const diffValentine = valentineDate - now;
+
+            // Function to format time
+            const formatTime = (ms) => {
+                const days = Math.floor(ms / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((ms % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const mins = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
+                const secs = Math.floor((ms % (1000 * 60)) / 1000);
+                return `${days}d ${hours}h ${mins}m ${secs}s`;
+            };
+
+            document.getElementById('confession-timer').innerText = formatTime(diffConfession);
+            document.getElementById('valentine-timer').innerText = formatTime(diffValentine);
+        }
+        setInterval(updateTimers, 1000);
+
+        // --- 2. HEARTS ---
         function createHeart() {
             const heart = document.createElement('div');
             heart.classList.add('heart');
@@ -248,7 +269,7 @@
         }
         setInterval(createHeart, 300);
 
-        // --- 2. PASSWORD ---
+        // --- 3. PASSWORD ---
         function checkPass() {
             const input = document.getElementById('passInput').value;
             if(input.toLowerCase() === "munchkin") { 
@@ -259,68 +280,54 @@
             } else { alert("Wrong! 😂 Try again."); }
         }
 
-        // --- 3. REASONS WHY LOGIC ---
+        // --- 4. REASONS ---
         const reasons = [
-            "Because you're gorgeous even when you're hangry. 🍔",
-            "Because you always know how to make me laugh. 😂",
-            "Because of the way you think you're right... even when you aren't. 😉",
-            "Because you're my best friend and my person. ❤️",
-            "Because you give the absolute best hugs in the world. 🤗",
-            "Because you're 100% the 'mean one' in this relationship. 😂",
-            "Because I can't imagine a single day without you. ✨",
-            "Because you make even the most boring days exciting. 🚀",
-            "Because you have the most beautiful soul I've ever met. 💖"
+            "Your smile makes my whole day brighter. ✨",
+            "The way you care about the little things. ❤️",
+            "Because you're my best friend. 🤗",
+            "Your laugh is my favorite sound. 🎵",
+            "How gorgeous you look even when you're sleepy. 😴"
         ];
-
         function getRandomReason() {
-            const textElement = document.getElementById('reason-text');
-            textElement.style.opacity = 0;
-            setTimeout(() => {
-                const randomReason = reasons[Math.floor(Math.random() * reasons.length)];
-                textElement.innerText = randomReason;
-                textElement.style.opacity = 1;
-            }, 300);
+            const randomReason = reasons[Math.floor(Math.random() * reasons.length)];
+            document.getElementById('reason-text').innerText = randomReason;
         }
 
-        // --- 4. SCROLL REVEAL ---
+        // --- 5. SCROLL REVEAL ---
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('show'); });
         }, { threshold: 0.1 });
         document.querySelectorAll('.memory-card').forEach(card => observer.observe(card));
 
-        // --- 5. MUSIC ---
+        // --- 6. MUSIC ---
         const audio = document.getElementById('main-audio');
-        const playBtn = document.getElementById('masterPlay');
         const albumArt = document.getElementById('album-art');
         function toggleMusic() {
             if (audio.paused) {
-                audio.play(); playBtn.innerText = "⏸";
-                albumArt.style.animationPlayState = 'running';
+                audio.play(); albumArt.style.animationPlayState = 'running';
             } else {
-                audio.pause(); playBtn.innerText = "▶";
-                albumArt.style.animationPlayState = 'paused';
+                audio.pause(); albumArt.style.animationPlayState = 'paused';
             }
         }
 
-        // --- 6. SCANNER ---
+        // --- 7. SCANNER ---
         function startScan() {
             const btn = document.getElementById('scan-btn');
-            const bar = document.getElementById('progress-bar');
-            document.querySelector('.progress-container').style.display = 'block';
+            const bar = document.getElementById('prog-bar');
+            document.getElementById('prog-cont').style.display = 'block';
             btn.style.display = 'none';
             let width = 0;
             const id = setInterval(() => {
                 if (width >= 100) {
                     clearInterval(id);
                     document.getElementById('result-box').classList.remove('hidden');
-                    document.getElementById('status-text').innerText = "Scan Complete!";
                 } else {
                     width++; bar.style.width = width + '%';
                 }
             }, 50);
         }
 
-        // --- 7. RUNAWAY BUTTON ---
+        // --- 8. RUNAWAY BUTTON ---
         function moveButton() {
             const noBtn = document.getElementById('noBtn');
             const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - 30);
@@ -328,7 +335,7 @@
             noBtn.style.left = x + 'px'; noBtn.style.top = y + 'px';
         }
 
-        function celebrate() { alert("YAY! ❤️ Best choice ever! See you soon!"); }
+        function celebrate() { alert("YAY! ❤️ See you soon!"); }
     </script>
 </body>
 </html>
