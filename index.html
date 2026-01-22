@@ -95,22 +95,18 @@
 
         .hero h1 { font-family: 'Dancing Script'; font-size: clamp(3.5rem, 10vw, 5.5rem); margin: 0; }
 
-        /* --- TIMER SECTION --- */
-        .timer-container {
-            display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;
-            max-width: 900px; width: 100%;
-        }
-
+        /* --- SINGLE TIMER SECTION --- */
         .timer-card {
-            background: white; padding: 30px; border-radius: 25px;
-            box-shadow: 0 10px 25px rgba(255, 77, 109, 0.1);
-            flex: 1; min-width: 280px;
+            background: white; padding: 40px; border-radius: 30px;
+            box-shadow: 0 15px 40px rgba(255, 77, 109, 0.1);
+            max-width: 500px; width: 100%;
         }
 
-        .timer-card h3 { font-size: 1.1rem; margin-bottom: 15px; opacity: 0.8; }
-        .time-display { font-size: 1.8rem; font-weight: 700; color: var(--primary-pink); }
+        .timer-card h3 { font-size: 1.2rem; margin-bottom: 20px; opacity: 0.8; }
+        .time-display { font-size: 2.2rem; font-weight: 700; color: var(--primary-pink); }
 
-        /* --- REASONS & MEMORIES --- */
+        /* --- MEMORIES SCRAPBOOK --- */
+        .memory-container { max-width: 800px; width: 100%; display: flex; flex-direction: column; gap: 50px; }
         .memory-card {
             background: white; padding: 20px; border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
@@ -122,6 +118,7 @@
         .memory-card:nth-child(even) { align-self: flex-end; transform: rotate(2deg); }
         .memory-card img { width: 100%; border-radius: 15px; margin-bottom: 15px; }
 
+        /* --- BUTTONS --- */
         .btn {
             padding: 16px 40px; background: var(--primary-pink); color: white; border: none;
             border-radius: 50px; font-weight: 700; cursor: pointer; transition: 0.3s;
@@ -132,7 +129,7 @@
 
         @media (max-width: 600px) {
             #yesBtn { left: 10%; } #noBtn { left: 55%; }
-            .timer-card { min-width: 100%; }
+            .time-display { font-size: 1.6rem; }
         }
     </style>
 </head>
@@ -150,7 +147,7 @@
 
     <div id="password-screen">
         <div class="password-card">
-            <h1 style="font-family: 'Dancing Script';">Hey You!</h1>
+            <h1 style="font-family: 'Dancing Script';">Hey Gorgeous!</h1>
             <p>What is my favorite nickname for you?</p>
             <input type="password" id="passInput" placeholder="Password..." onkeydown="if(event.key==='Enter') checkPass()">
             <button class="btn" onclick="checkPass()">Unlock My Heart</button>
@@ -167,17 +164,10 @@
 
         <section id="timeline">
             <h2 style="font-family: 'Dancing Script'; font-size: 3rem; margin-bottom: 40px;">The Journey So Far</h2>
-            <div class="timer-container">
-                <div class="timer-card">
-                    <h3>Time Since I Confessed ❤️</h3>
-                    <div id="confession-timer" class="time-display">Calculating...</div>
-                    <p style="margin-top: 10px; font-size: 0.9rem; opacity: 0.7;">(22nd December 2025)</p>
-                </div>
-                <div class="timer-card">
-                    <h3>Until our Valentine's Date 🌹</h3>
-                    <div id="valentine-timer" class="time-display">Calculating...</div>
-                    <p style="margin-top: 10px; font-size: 0.9rem; opacity: 0.7;">(14th February 2026)</p>
-                </div>
+            <div class="timer-card">
+                <h3>Time Since I Confessed ❤️</h3>
+                <div id="confession-timer" class="time-display">Calculating...</div>
+                <p style="margin-top: 15px; font-size: 0.9rem; opacity: 0.7;">(22nd December 2025)</p>
             </div>
         </section>
 
@@ -219,7 +209,7 @@
 
         <section id="final-question">
             <h1 style="font-family: 'Dancing Script'; font-size: 4rem;">Wait...</h1>
-            <p style="font-size: 1.6rem;">Will you be my Valentine?</p>
+            <p style="font-size: 1.5rem;">Will you be my Valentine?</p>
             <div style="position: relative; width: 100%; height: 250px; margin-top: 40px;">
                 <button class="btn" id="yesBtn" onclick="celebrate()">YES</button>
                 <button class="btn" id="noBtn" onmouseover="moveButton()" onclick="moveButton()">NO</button>
@@ -229,29 +219,19 @@
     </div>
 
     <script>
-        // --- 1. LIVE TIMERS ---
+        // --- 1. LIVE TIMER (CONFESSION) ---
         function updateTimers() {
             const now = new Date();
-            
-            // Confession Date: Dec 22, 2025
             const confessionDate = new Date('December 22, 2025 00:00:00');
-            const diffConfession = now - confessionDate;
-            
-            // Valentine Date: Feb 14, 2026
-            const valentineDate = new Date('February 14, 2026 00:00:00');
-            const diffValentine = valentineDate - now;
+            const diff = now - confessionDate;
 
-            // Function to format time
-            const formatTime = (ms) => {
-                const days = Math.floor(ms / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((ms % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const mins = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
-                const secs = Math.floor((ms % (1000 * 60)) / 1000);
-                return `${days}d ${hours}h ${mins}m ${secs}s`;
-            };
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const secs = Math.floor((diff % (1000 * 60)) / 1000);
 
-            document.getElementById('confession-timer').innerText = formatTime(diffConfession);
-            document.getElementById('valentine-timer').innerText = formatTime(diffValentine);
+            document.getElementById('confession-timer').innerText = 
+                `${days}d ${hours}h ${mins}m ${secs}s`;
         }
         setInterval(updateTimers, 1000);
 
