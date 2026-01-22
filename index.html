@@ -49,7 +49,6 @@
             align-items: center;
             z-index: 9999;
             text-align: center;
-            transition: opacity 0.5s ease;
         }
 
         .password-card {
@@ -63,17 +62,6 @@
             flex-direction: column;
             align-items: center;
             gap: 20px;
-        }
-
-        #password-screen h1 { font-family: 'Dancing Script', cursive; font-size: 3rem; margin: 0; }
-        #passInput { 
-            padding: 15px; 
-            width: 80%; 
-            border: 2px solid var(--soft-pink); 
-            border-radius: 15px; 
-            outline: none; 
-            text-align: center; 
-            font-size: 1rem; 
         }
 
         /* --- CLASSES TO HIDE CONTENT --- */
@@ -121,6 +109,27 @@
         .memory-card:nth-child(even) { align-self: flex-end; transform: rotate(2deg); }
         .memory-card img { width: 100%; border-radius: 15px; margin-bottom: 15px; }
 
+        /* --- REASONS RANDOMIZER --- */
+        .reason-card {
+            background: white; padding: 40px; border-radius: 30px;
+            box-shadow: 0 15px 40px rgba(255, 77, 109, 0.1);
+            max-width: 500px; width: 100%; position: relative;
+        }
+
+        #reason-text {
+            font-size: 1.4rem; font-weight: 500; min-height: 80px;
+            display: flex; align-items: center; justify-content: center;
+            transition: opacity 0.3s;
+        }
+
+        .heart-btn {
+            font-size: 3rem; background: none; border: none;
+            cursor: pointer; transition: transform 0.2s;
+            filter: drop-shadow(0 5px 10px rgba(255, 77, 109, 0.3));
+        }
+
+        .heart-btn:active { transform: scale(0.8); }
+
         /* --- SASSY SCANNER --- */
         .scanner-card {
             background: white; padding: 40px; border-radius: 30px;
@@ -160,8 +169,8 @@
 
     <div id="password-screen">
         <div class="password-card">
-            <h1>One Last Check...</h1>
-            <p>What is my favorite nickname for you?</p>
+            <h1 style="font-family: 'Dancing Script';">Hold on!</h1>
+            <p>Verify your identity to enter.</p>
             <input type="password" id="passInput" placeholder="Password..." onkeydown="if(event.key==='Enter') checkPass()">
             <button class="btn" onclick="checkPass()">Unlock My Heart</button>
         </div>
@@ -187,6 +196,15 @@
                     <img src="https://via.placeholder.com/400x300" alt="Memory 2">
                     <p>"This moment always makes me smile."</p>
                 </div>
+            </div>
+        </section>
+
+        <section id="reasons">
+            <h2 style="font-family: 'Dancing Script'; font-size: 3rem;">Why I Love You</h2>
+            <div class="reason-card">
+                <p id="reason-text">Click the heart to see a reason...</p>
+                <button class="heart-btn" onclick="getRandomReason()">❤️</button>
+                <p style="margin-top: 20px; font-size: 0.8rem; opacity: 0.6;">(Every click is a new reason)</p>
             </div>
         </section>
 
@@ -233,26 +251,44 @@
         // --- 2. PASSWORD ---
         function checkPass() {
             const input = document.getElementById('passInput').value;
-            // SET YOUR PASSWORD HERE (ALL LOWERCASE)
             if(input.toLowerCase() === "munchkin") { 
-                // Hide password screen
                 document.getElementById('password-screen').classList.add('force-hide');
-                // Show main content and music player
                 document.getElementById('main-content').classList.remove('hidden');
                 document.getElementById('music-player').classList.remove('force-hide');
                 window.scrollTo(0,0);
-            } else { 
-                alert("Wrong! 😂 Try again."); 
-            }
+            } else { alert("Wrong! 😂 Try again."); }
         }
 
-        // --- 3. SCROLL REVEAL ---
+        // --- 3. REASONS WHY LOGIC ---
+        const reasons = [
+            "Because you're gorgeous even when you're hangry. 🍔",
+            "Because you always know how to make me laugh. 😂",
+            "Because of the way you think you're right... even when you aren't. 😉",
+            "Because you're my best friend and my person. ❤️",
+            "Because you give the absolute best hugs in the world. 🤗",
+            "Because you're 100% the 'mean one' in this relationship. 😂",
+            "Because I can't imagine a single day without you. ✨",
+            "Because you make even the most boring days exciting. 🚀",
+            "Because you have the most beautiful soul I've ever met. 💖"
+        ];
+
+        function getRandomReason() {
+            const textElement = document.getElementById('reason-text');
+            textElement.style.opacity = 0;
+            setTimeout(() => {
+                const randomReason = reasons[Math.floor(Math.random() * reasons.length)];
+                textElement.innerText = randomReason;
+                textElement.style.opacity = 1;
+            }, 300);
+        }
+
+        // --- 4. SCROLL REVEAL ---
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('show'); });
         }, { threshold: 0.1 });
         document.querySelectorAll('.memory-card').forEach(card => observer.observe(card));
 
-        // --- 4. MUSIC ---
+        // --- 5. MUSIC ---
         const audio = document.getElementById('main-audio');
         const playBtn = document.getElementById('masterPlay');
         const albumArt = document.getElementById('album-art');
@@ -266,7 +302,7 @@
             }
         }
 
-        // --- 5. SCANNER ---
+        // --- 6. SCANNER ---
         function startScan() {
             const btn = document.getElementById('scan-btn');
             const bar = document.getElementById('progress-bar');
@@ -284,7 +320,7 @@
             }, 50);
         }
 
-        // --- 6. RUNAWAY BUTTON ---
+        // --- 7. RUNAWAY BUTTON ---
         function moveButton() {
             const noBtn = document.getElementById('noBtn');
             const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - 30);
