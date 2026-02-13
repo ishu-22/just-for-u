@@ -13,11 +13,10 @@
             --soft-pink: #fff0f3;
             --dark-pink: #c9184a;
             --accent-gold: #ffb700;
-            --glass-white: rgba(255, 255, 255, 0.8);
+            --glass-white: rgba(255, 255, 255, 0.85);
             --glass-border: rgba(255, 255, 255, 0.5);
         }
 
-        /* --- SMOOTH SCROLL & CUSTOM SCROLLBAR --- */
         html { scroll-behavior: smooth; }
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: var(--soft-pink); }
@@ -29,45 +28,21 @@
             background: linear-gradient(135deg, #fff0f3 0%, #ffccd5 100%);
             color: var(--dark-pink);
             overflow-x: hidden;
-            position: relative;
         }
 
-        /* --- FLOATING AMBIANCE --- */
+        /* --- AMBIANCE --- */
         .heart {
-            position: fixed; top: -10px;
-            color: var(--primary-pink);
-            user-select: none; z-index: -1;
-            filter: drop-shadow(0 0 5px rgba(255, 77, 109, 0.3));
-            animation: fall linear forwards;
+            position: fixed; top: -10px; color: var(--primary-pink);
+            user-select: none; z-index: -1; animation: fall linear forwards;
         }
+        @keyframes fall { to { transform: translateY(105vh) translateX(30px) rotate(360deg); opacity: 0; } }
 
-        @keyframes fall {
-            to { transform: translateY(105vh) translateX(30px) rotate(360deg); opacity: 0; }
-        }
-
-        /* --- GLASS CARD DESIGN --- */
+        /* --- GLASS DESIGN --- */
         .glass-card {
-            background: var(--glass-white);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid var(--glass-border);
-            border-radius: 30px;
+            background: var(--glass-white); backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border); border-radius: 30px;
             box-shadow: 0 15px 35px rgba(255, 77, 109, 0.15);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .glass-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 45px rgba(255, 77, 109, 0.25);
-        }
-
-        /* --- PASSWORD SCREEN --- */
-        #password-screen {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            background: linear-gradient(135deg, #fff0f3 0%, #ffccd5 100%);
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            z-index: 10000;
+            padding: 40px; text-align: center; transition: 0.3s;
         }
 
         /* --- MUSIC PLAYER --- */
@@ -79,146 +54,130 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             z-index: 1000; border: 1px solid var(--glass-border);
         }
-
         .album-art {
-            width: 45px; height: 45px; background: linear-gradient(45deg, var(--primary-pink), var(--accent-gold));
+            width: 40px; height: 40px; background: var(--primary-pink);
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
             color: white; animation: rotate 4s linear infinite; animation-play-state: paused;
-            box-shadow: 0 0 15px rgba(255, 77, 109, 0.4);
         }
-
         @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        /* --- HERO SECTION --- */
-        section { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 80px 20px; text-align: center; }
+        /* --- GAME STYLES --- */
+        #game-container {
+            position: relative; width: 100%; max-width: 600px; height: 400px;
+            background: rgba(255, 255, 255, 0.3); border-radius: 20px;
+            overflow: hidden; border: 2px dashed var(--primary-pink);
+            margin: 20px auto; cursor: crosshair;
+        }
+        .game-heart { position: absolute; font-size: 35px; cursor: pointer; user-select: none; }
+
+        /* --- LAYOUT --- */
+        section { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 60px 20px; text-align: center; }
+        .hero h1 { font-family: 'Dancing Script', cursive; font-size: clamp(3.5rem, 10vw, 6.5rem); margin: 0; }
         
-        .hero h1 { 
-            font-family: 'Dancing Script', cursive; 
-            font-size: clamp(4rem, 12vw, 6.5rem); 
-            margin: 0;
-            background: linear-gradient(45deg, var(--dark-pink), var(--primary-pink));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.1));
-        }
-
-        /* --- SCRAPBOOK MEMORIES --- */
-        .memory-card {
-            background: white; padding: 15px; border-radius: 5px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            opacity: 0; transform: translateY(40px) scale(0.95);
-            transition: all 0.9s cubic-bezier(0.17, 0.67, 0.83, 0.67);
-            max-width: 320px;
-            border-bottom: 50px solid white; /* Polaroid Style */
-        }
-        .memory-card.show { opacity: 1; transform: translateY(0) scale(1); }
-        .memory-card img { width: 100%; border-radius: 2px; height: 250px; object-fit: cover; }
-
-        /* --- BUTTONS --- */
         .btn {
             padding: 18px 45px; background: var(--primary-pink); color: white; border: none;
-            border-radius: 50px; font-weight: 700; cursor: pointer; font-size: 1.1rem;
-            text-transform: uppercase; letter-spacing: 1px;
-            box-shadow: 0 8px 20px rgba(255, 77, 109, 0.3);
-            transition: all 0.3s ease;
+            border-radius: 50px; font-weight: 700; cursor: pointer; transition: 0.3s;
+            box-shadow: 0 8px 20px rgba(255, 77, 109, 0.3); text-transform: uppercase;
         }
-
-        .btn:hover { background: var(--dark-pink); transform: translateY(-3px); box-shadow: 0 12px 25px rgba(255, 77, 109, 0.4); }
-
-        #yesBtn { position: absolute; left: 20%; background: linear-gradient(45deg, #ff4d6d, #ff758c); }
-        #noBtn { position: absolute; left: 60%; background: #9b9b9b; transition: 0.1s; }
+        .btn:hover { background: var(--dark-pink); transform: translateY(-3px); }
 
         .hidden { display: none !important; }
+        .force-hide { display: none !important; }
+
+        #noBtn { position: absolute; left: 60%; background: #9b9b9b; transition: 0.1s; }
+        #yesBtn { position: absolute; left: 20%; }
 
         @media (max-width: 600px) {
             #yesBtn { left: 10%; } #noBtn { left: 55%; }
-            .hero h1 { font-size: 3.5rem; }
         }
     </style>
 </head>
 <body>
 
-    <div id="music-player" class="hidden">
+    <div id="music-player" class="force-hide">
         <div class="album-art" id="album-art">🎵</div>
         <div style="text-align: left;">
-            <span style="display:block; font-size:12px; font-weight:700; letter-spacing:1px;">OUR PLAYLIST</span>
-            <small style="font-size:10px; opacity:0.6;">Click to feel the vibe</small>
+            <span style="display:block; font-size:12px; font-weight:700;">OUR SONG</span>
+            <small style="font-size:10px; opacity:0.6;">Click Play</small>
         </div>
-        <button onclick="toggleMusic()" id="masterPlay" style="background:var(--primary-pink); border:none; color:white; border-radius:50%; width:35px; height:35px; cursor:pointer; font-size: 14px;">▶</button>
+        <button onclick="toggleMusic()" id="masterPlay" style="background:var(--primary-pink); border:none; color:white; border-radius:50%; width:30px; height:30px; cursor:pointer;">▶</button>
         <audio id="main-audio" loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
     </div>
 
     <div id="password-screen">
-        <div class="glass-card" style="padding: 50px; text-align: center; width: 85%; max-width: 400px;">
-            <h1 style="font-family: 'Dancing Script'; font-size: 3rem; margin-bottom: 10px;">Who are you?</h1>
-            <p style="font-family: 'Montserrat'; font-weight: 300; margin-bottom: 25px;">Enter the secret word to unlock my heart.</p>
-            <input type="password" id="passInput" placeholder="Password..." 
-                   style="padding: 15px; width: 80%; border: 1px solid #ddd; border-radius: 15px; text-align: center; outline: none; margin-bottom: 25px;"
-                   onkeydown="if(event.key==='Enter') checkPass()">
-            <button class="btn" onclick="checkPass()">Unlock</button>
-        </div>
+        <section>
+            <div class="glass-card">
+                <h1 style="font-family: 'Dancing Script';">Hold On!</h1>
+                <p>Verify your identity to unlock my heart.</p>
+                <input type="password" id="passInput" placeholder="Password..." 
+                       style="padding: 15px; border-radius: 15px; border: 1px solid #ddd; margin: 20px 0; text-align: center; outline: none; width: 80%;"
+                       onkeydown="if(event.key==='Enter') checkPass()">
+                <br>
+                <button class="btn" onclick="checkPass()">Unlock</button>
+            </div>
+        </section>
     </div>
 
     <div id="main-content" class="hidden">
         
         <section class="hero">
             <h1>Hey Beautiful...</h1>
-            <p style="font-family: 'Montserrat'; font-size: 1.2rem; letter-spacing: 2px; opacity: 0.8;">I MADE THIS JUST FOR YOU</p>
-            <div style="margin-top: 40px; animation: bounce 2s infinite;">
-                <p style="font-size: 0.9rem; opacity: 0.5;">SCROLL DOWN</p>
-                <span style="font-size: 20px;">↓</span>
+            <p style="letter-spacing: 2px; font-weight: 300;">I MADE THIS JUST FOR YOU</p>
+            <div style="margin-top: 50px; opacity: 0.5; animation: bounce 2s infinite;">
+                <p style="font-size: 0.8rem;">SCROLL DOWN</p>
+                <span>↓</span>
             </div>
         </section>
 
         <section id="timeline">
-            <div class="glass-card" style="padding: 50px; width: 90%; max-width: 600px;">
+            <div class="glass-card" style="width: 90%; max-width: 600px;">
                 <h2 style="font-family: 'Dancing Script'; font-size: 3rem; margin-bottom: 20px;">The Journey So Far</h2>
-                <div id="confession-timer" style="font-size: 2.2rem; font-weight: 700; color: var(--primary-pink); font-family: 'Montserrat';">...</div>
-                <p style="margin-top: 15px; opacity: 0.6; font-weight: 300;">Since the day I confessed my feelings <br>(Dec 22, 2025)</p>
+                <div id="confession-timer" style="font-size: 2.2rem; font-weight: 700; color: var(--primary-pink);">...</div>
+                <p style="margin-top: 15px; opacity: 0.6;">Since the day I confessed my feelings (Dec 22, 2025)</p>
             </div>
         </section>
 
-        <section id="memories">
-            <h2 style="font-family: 'Dancing Script'; font-size: 3.5rem; margin-bottom: 50px;">Memory Lane</h2>
-            <div style="display: flex; flex-direction: column; gap: 80px; width: 100%; max-width: 800px;">
-                <div class="memory-card" style="align-self: flex-start; transform: rotate(-3deg);">
-                    <img src="https://via.placeholder.com/400x500" alt="Memory">
-                    <p style="font-family: 'Dancing Script'; font-size: 1.5rem; margin-top: 15px;">Our first date ✨</p>
+        <section id="game-section">
+            <div class="glass-card" style="width: 95%; max-width: 700px;">
+                <h2 style="font-family: 'Dancing Script'; font-size: 3rem; margin: 0;">Catch My Love ❤️</h2>
+                <p>Win a <strong>"One-Time Ticket Pass"</strong> if you catch 15 hearts!</p>
+                
+                <div style="font-family: 'Montserrat'; font-weight: 600; margin: 15px 0;">
+                    Score: <span id="score">0</span> | Time: <span id="timer">20</span>s
                 </div>
-                <div class="memory-card" style="align-self: flex-end; transform: rotate(3deg);">
-                    <img src="https://via.placeholder.com/400x500" alt="Memory">
-                    <p style="font-family: 'Dancing Script'; font-size: 1.5rem; margin-top: 15px;">Your favorite laugh 😂</p>
-                </div>
+
+                <div id="game-container"></div>
+
+                <button class="btn" id="start-game-btn" onclick="startGame()">Start Game</button>
             </div>
         </section>
 
         <section id="reasons">
-            <div class="glass-card" style="padding: 50px; max-width: 500px; width: 100%;">
+            <div class="glass-card" style="max-width: 500px; width: 100%;">
                 <h2 style="font-family: 'Dancing Script'; font-size: 2.5rem; margin-top: 0;">Reasons Why I Love You</h2>
-                <div id="reason-text" style="font-size: 1.4rem; min-height: 80px; display: flex; align-items: center; justify-content: center; margin-bottom: 30px; font-weight: 300;">
-                    Click the heart to see...
+                <div id="reason-text" style="font-size: 1.4rem; min-height: 80px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+                    Click the heart...
                 </div>
-                <button onclick="getRandomReason()" style="background:none; border:none; font-size:4rem; cursor:pointer; transition: 0.3s;" id="heart-beat">❤️</button>
+                <button onclick="getRandomReason()" style="background:none; border:none; font-size:4rem; cursor:pointer;">❤️</button>
             </div>
         </section>
 
         <section id="final-question" style="position: relative; width: 100vw; height: 100vh;">
-            <h1 style="font-family: 'Dancing Script'; font-size: 4.5rem; margin: 0;">One last thing...</h1>
-            <p style="font-size: 1.8rem; font-family: 'Montserrat'; font-weight: 300;">Will you be my Valentine?</p>
+            <h1 style="font-family: 'Dancing Script'; font-size: 4.5rem; margin: 0;">Wait...</h1>
+            <p style="font-size: 1.8rem; font-weight: 300;">Will you be my Valentine?</p>
             <div style="position: relative; width: 100%; height: 300px; margin-top: 50px;">
                 <button class="btn" id="yesBtn" onclick="celebrate()">YES</button>
-                <button class="btn" id="noBtn" onmouseover="moveButton()" onclick="moveButton()">NO</button>
+                <button class="btn" id="noBtn" onmouseover="moveButton()">NO</button>
             </div>
         </section>
-
     </div>
 
     <script>
-        // 1. TIMER LOGIC
+        // 1. TIMER
         function updateTimer() {
-            const confessionDate = new Date('December 22, 2025 00:00:00');
+            const start = new Date('December 22, 2025 00:00:00');
             const now = new Date();
-            const diff = now - confessionDate;
+            const diff = now - start;
             const days = Math.floor(diff / (1000 * 60 * 60 * 24));
             const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
             const mins = Math.floor((diff / 1000 / 60) % 60);
@@ -227,41 +186,63 @@
         }
         setInterval(updateTimer, 1000);
 
-        // 2. HEARTS ANIMATION
-        function createHeart() {
-            const heart = document.createElement('div');
-            heart.classList.add('heart');
-            heart.innerHTML = '❤️';
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = Math.random() * 3 + 2 + 's';
-            heart.style.opacity = Math.random() * 0.5 + 0.5;
-            heart.style.fontSize = Math.random() * 15 + 10 + 'px';
-            document.body.appendChild(heart);
-            setTimeout(() => heart.remove(), 5000);
-        }
-        setInterval(createHeart, 300);
-
-        // 3. PASSWORD SYSTEM
+        // 2. PASSWORD
         function checkPass() {
             const input = document.getElementById('passInput').value.toLowerCase();
-            if(input === "munchkin") { // Change this to your nickname
-                document.getElementById('password-screen').classList.add('hidden');
+            if(input === "munchkin") { 
+                document.getElementById('password-screen').classList.add('force-hide');
                 document.getElementById('main-content').classList.remove('hidden');
-                document.getElementById('music-player').classList.remove('hidden');
+                document.getElementById('music-player').classList.remove('force-hide');
                 window.scrollTo(0,0);
-            } else { alert("ACCESS DENIED. Incorrect identity! 😂"); }
+            } else { alert("Incorrect identity! 😂"); }
         }
 
-        // 4. REASONS RANDOMIZER
-        const reasons = [
-            "Your smile makes the world feel right. ✨",
-            "The way you care about the tiniest details. ❤️",
-            "You are my absolute best friend. 🤗",
-            "I love your laugh more than any song. 🎵",
-            "You are gorgeous, even when you wake up. 😴",
-            "The way you support me in everything I do. 🚀",
-            "Because you're you, and that's enough for me. 💖"
-        ];
+        // 3. AMBIANCE HEARTS
+        function createAmbiance() {
+            const h = document.createElement('div');
+            h.classList.add('heart'); h.innerHTML = '❤️';
+            h.style.left = Math.random() * 100 + 'vw';
+            h.style.animationDuration = Math.random() * 3 + 2 + 's';
+            document.body.appendChild(h);
+            setTimeout(() => h.remove(), 5000);
+        }
+        setInterval(createAmbiance, 400);
+
+        // 4. GAME LOGIC
+        let score = 0, timeLeft = 20, gameActive = false, gameInt;
+        function startGame() {
+            score = 0; timeLeft = 20; gameActive = true;
+            document.getElementById('score').innerText = score;
+            document.getElementById('timer').innerText = timeLeft;
+            document.getElementById('start-game-btn').classList.add('hidden');
+            gameInt = setInterval(() => {
+                timeLeft--; document.getElementById('timer').innerText = timeLeft;
+                if(timeLeft <= 0) endGame();
+            }, 1000);
+            spawnHeart();
+        }
+        function spawnHeart() {
+            if(!gameActive) return;
+            const container = document.getElementById('game-container');
+            const h = document.createElement('div');
+            h.classList.add('game-heart'); h.innerHTML = '❤️';
+            h.style.left = Math.random() * (container.offsetWidth - 50) + 'px';
+            h.style.top = Math.random() * (container.offsetHeight - 50) + 'px';
+            h.onclick = () => { score++; document.getElementById('score').innerText = score; h.remove(); };
+            container.appendChild(h);
+            setTimeout(() => { if(h.parentElement) h.remove(); if(gameActive) spawnHeart(); }, 800);
+        }
+        function endGame() {
+            gameActive = false; clearInterval(gameInt);
+            document.getElementById('start-game-btn').classList.remove('hidden');
+            if(score >= 15) {
+                alert("CONGRATULATIONS! 🎉 You caught my love! You've officially won a 'ONE-TIME TICKET PASS' to make me do anything you want! (Screen record this now! 😉)");
+            } else { alert(`Aww, you caught ${score} hearts. You need 15 to win the Ticket Pass! Try again? ❤️`); }
+            document.getElementById('game-container').innerHTML = '';
+        }
+
+        // 5. REASONS
+        const reasons = ["Your smile ✨", "Your laugh 😂", "Your kind heart ❤️", "Your sense of humor 😉", "Your stolen hoodies 😴", "Everything about you 💖"];
         function getRandomReason() {
             const text = document.getElementById('reason-text');
             text.style.opacity = 0;
@@ -271,35 +252,21 @@
             }, 300);
         }
 
-        // 5. SCROLL REVEAL
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('show'); });
-        }, { threshold: 0.1 });
-        document.querySelectorAll('.memory-card').forEach(card => observer.observe(card));
-
         // 6. MUSIC
-        const audio = document.getElementById('main-audio');
-        const albumArt = document.getElementById('album-art');
-        const playBtn = document.getElementById('masterPlay');
+        const audio = document.getElementById('main-audio'), albumArt = document.getElementById('album-art'), playBtn = document.getElementById('masterPlay');
         function toggleMusic() {
-            if (audio.paused) {
-                audio.play(); albumArt.style.animationPlayState = 'running'; playBtn.innerText = "⏸";
-            } else {
-                audio.pause(); albumArt.style.animationPlayState = 'paused'; playBtn.innerText = "▶";
-            }
+            if (audio.paused) { audio.play(); albumArt.style.animationPlayState = 'running'; playBtn.innerText = "⏸"; }
+            else { audio.pause(); albumArt.style.animationPlayState = 'paused'; playBtn.innerText = "▶"; }
         }
 
-        // 7. RUNAWAY BUTTON
+        // 7. RUNAWAY
         function moveButton() {
-            const noBtn = document.getElementById('noBtn');
-            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - 30);
-            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - 30);
-            noBtn.style.left = x + 'px'; noBtn.style.top = y + 'px';
+            const b = document.getElementById('noBtn');
+            const x = Math.random() * (window.innerWidth - b.offsetWidth - 30);
+            const y = Math.random() * (window.innerHeight - b.offsetHeight - 30);
+            b.style.left = x + 'px'; b.style.top = y + 'px';
         }
-
-        function celebrate() {
-            alert("YAY! ❤️ Best decision ever. I love you! Check your phone. 😉");
-        }
+        function celebrate() { alert("YAY! ❤️ Happy Valentine's Day! Best choice ever!"); }
     </script>
 </body>
 </html>
