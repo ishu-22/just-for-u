@@ -55,38 +55,47 @@
             padding: 40px; text-align: center; transition: 0.3s;
         }
 
-        /* --- THE GOLDEN TICKET POPUP --- */
+        /* --- SUCCESS MESSAGE OVERLAY --- */
+        #celebrate-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(255, 77, 109, 0.2); backdrop-filter: blur(10px);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 30000; animation: fadeIn 0.5s ease;
+        }
+
+        .celebrate-card {
+            background: white;
+            padding: 50px;
+            border-radius: 40px;
+            text-align: center;
+            max-width: 600px; width: 90%;
+            box-shadow: 0 20px 60px rgba(201, 24, 74, 0.3);
+            border: 3px solid var(--primary-pink);
+            animation: zoomIn 0.6s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes zoomIn { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        /* --- THE GOLDEN TICKET --- */
         #ticket-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(0,0,0,0.5); backdrop-filter: blur(5px);
             display: flex; justify-content: center; align-items: center;
             z-index: 20000;
         }
-        
         .ticket-card {
             background: linear-gradient(135deg, #fff 0%, #ffd1dc 100%);
-            border: 4px solid var(--accent-gold);
-            border-radius: 20px;
-            padding: 40px;
-            text-align: center;
-            max-width: 500px; width: 90%;
-            box-shadow: 0 0 50px rgba(255, 215, 0, 0.5);
-            position: relative;
-            overflow: hidden;
-            animation: popUp 0.5s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+            border: 4px solid var(--accent-gold); border-radius: 20px;
+            padding: 40px; text-align: center; max-width: 500px; width: 90%;
+            box-shadow: 0 0 50px rgba(255, 215, 0, 0.5); position: relative; overflow: hidden;
         }
-        
         .ticket-card::before {
             content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
             background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.8), transparent);
             transform: rotate(45deg); animation: shine 3s infinite;
         }
-
-        @keyframes popUp { from { transform: scale(0); } to { transform: scale(1); } }
         @keyframes shine { 0% { left: -50%; top: -50%; } 100% { left: 100%; top: 100%; } }
-
-        .ticket-header { font-family: 'Montserrat'; font-weight: 700; color: var(--accent-gold); font-size: 1.5rem; letter-spacing: 2px; }
-        .ticket-body { font-family: 'Dancing Script'; font-size: 3.5rem; margin: 20px 0; color: var(--dark-pink); }
 
         /* --- MUSIC PLAYER --- */
         #music-player {
@@ -102,21 +111,14 @@
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
             color: white; animation: rotate 4s linear infinite; animation-play-state: paused;
         }
-        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
-        /* --- GAME STYLES --- */
-        #game-container {
-            position: relative; width: 100%; max-width: 600px; height: 400px;
-            background: rgba(255, 255, 255, 0.3); border-radius: 20px;
-            overflow: hidden; border: 2px dashed var(--primary-pink);
-            margin: 20px auto; cursor: crosshair;
-        }
-        .game-heart { position: absolute; font-size: 35px; cursor: pointer; user-select: none; }
 
         /* --- LAYOUT --- */
         section { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 60px 20px; text-align: center; }
         .hero h1 { font-family: 'Dancing Script', cursive; font-size: clamp(3.5rem, 10vw, 6.5rem); margin: 0; }
         
+        #game-container { position: relative; width: 100%; max-width: 600px; height: 400px; background: rgba(255, 255, 255, 0.3); border-radius: 20px; overflow: hidden; border: 2px dashed var(--primary-pink); margin: 20px auto; cursor: crosshair; }
+        .game-heart { position: absolute; font-size: 35px; cursor: pointer; user-select: none; }
+
         #noBtn { position: absolute; left: 60%; background: #9b9b9b; transition: 0.1s; }
         #yesBtn { position: absolute; left: 20%; }
 
@@ -127,10 +129,24 @@
 </head>
 <body>
 
+    <div id="celebrate-overlay" class="force-hide">
+        <div class="celebrate-card">
+            <h1 style="font-family: 'Dancing Script'; font-size: 4rem; color: var(--primary-pink); margin-bottom: 20px;">Yay! ❤️</h1>
+            
+            <p style="font-size: 1.4rem; line-height: 1.6; color: var(--dark-pink);">
+                I knew you'd say yes! You make me the happiest person in the world. 
+                I can't wait to spend Valentine's Day with my favorite person. 
+                I love you more than words can say! ✨
+            </p>
+            
+            <button class="btn" style="margin-top: 30px;" onclick="closeCelebrate()">Close</button>
+        </div>
+    </div>
+
     <div id="ticket-overlay" class="force-hide">
         <div class="ticket-card">
             <div class="ticket-header">OFFICIAL WINNER</div>
-            <div class="ticket-body">One-Time Pass</div>
+            <div class="ticket-body" style="font-family: 'Dancing Script'; font-size: 3.5rem; color: var(--dark-pink); margin: 20px 0;">One-Time Pass</div>
             <p style="font-size: 1.2rem; margin-bottom: 5px;">Valid for:</p>
             <h3 style="font-family: 'Montserrat'; color: var(--dark-pink); margin-top:0; margin-bottom: 30px;">Anything you want me to do.</h3>
             <button class="btn" style="background: var(--accent-gold); color: var(--dark-pink); font-weight: 800;" onclick="closeTicket()">CLAIM</button>
@@ -206,7 +222,7 @@
         </section>
 
         <section id="final-question" style="position: relative; width: 100vw; height: 100vh;">
-            <h1 style="font-family: 'Dancing Script'; font-size: 4.5rem; margin: 0;">Wait...</h1>
+            <h1 style="font-family: 'Dancing Script'; font-size: 4.5rem; margin: 0;">One last thing...</h1>
             <p style="font-size: 1.8rem; font-weight: 300;">Will you be my Valentine?</p>
             <div style="position: relative; width: 100%; height: 300px; margin-top: 50px;">
                 <button class="btn" id="yesBtn" onclick="celebrate()">YES</button>
@@ -251,7 +267,7 @@
         }
         setInterval(createAmbiance, 400);
 
-        // 4. GAME LOGIC & TICKET POPUP
+        // 4. GAME LOGIC
         let score = 0, timeLeft = 20, gameActive = false, gameInt;
         function startGame() {
             score = 0; timeLeft = 20; gameActive = true;
@@ -275,25 +291,26 @@
             container.appendChild(h);
             setTimeout(() => { if(h.parentElement) h.remove(); if(gameActive) spawnHeart(); }, 800);
         }
-        
         function endGame() {
             gameActive = false; clearInterval(gameInt);
             document.getElementById('start-game-btn').classList.remove('hidden');
-            document.getElementById('game-container').innerHTML = ''; // Clear hearts
+            document.getElementById('game-container').innerHTML = '';
+            if(score >= 15) { document.getElementById('ticket-overlay').classList.remove('force-hide'); }
+            else { alert(`Aww, only ${score} hearts. Need 15 for the Ticket! ❤️`); }
+        }
+        function closeTicket() { document.getElementById('ticket-overlay').classList.add('force-hide'); }
 
-            if(score >= 15) {
-                // SHOW THE GOLDEN TICKET
-                document.getElementById('ticket-overlay').classList.remove('force-hide');
-            } else { 
-                alert(`Aww, you only caught ${score} hearts. You need 15 for the Pass! Try again? ❤️`); 
+        // 5. THE "YES" CELEBRATION
+        function celebrate() {
+            document.getElementById('celebrate-overlay').classList.remove('force-hide');
+            // Create massive hearts
+            for(let i=0; i<20; i++) {
+                setTimeout(createAmbiance, i * 100);
             }
         }
+        function closeCelebrate() { document.getElementById('celebrate-overlay').classList.add('force-hide'); }
 
-        function closeTicket() {
-            document.getElementById('ticket-overlay').classList.add('force-hide');
-        }
-
-        // 5. REASONS
+        // 6. REASONS & OTHERS
         const reasons = ["Your smile ✨", "Your laugh 😂", "Your kind heart ❤️", "Your sense of humor 😉", "Your stolen hoodies 😴", "Everything about you 💖"];
         function getRandomReason() {
             const text = document.getElementById('reason-text');
@@ -304,21 +321,18 @@
             }, 300);
         }
 
-        // 6. MUSIC
         const audio = document.getElementById('main-audio'), albumArt = document.getElementById('album-art'), playBtn = document.getElementById('masterPlay');
         function toggleMusic() {
             if (audio.paused) { audio.play(); albumArt.style.animationPlayState = 'running'; playBtn.innerText = "⏸"; }
             else { audio.pause(); albumArt.style.animationPlayState = 'paused'; playBtn.innerText = "▶"; }
         }
 
-        // 7. RUNAWAY
         function moveButton() {
             const b = document.getElementById('noBtn');
             const x = Math.random() * (window.innerWidth - b.offsetWidth - 30);
             const y = Math.random() * (window.innerHeight - b.offsetHeight - 30);
             b.style.left = x + 'px'; b.style.top = y + 'px';
         }
-        function celebrate() { alert("YAY! ❤️ Happy Valentine's Day! Best choice ever!"); }
     </script>
 </body>
 </html>
