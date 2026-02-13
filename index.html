@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>For My Favorite Person ❤️</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@300;500;700&family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@300;500;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
             --primary-pink: #ff4d6d;
             --soft-pink: #fff0f3;
             --dark-pink: #c9184a;
-            --accent-gold: #ffb700;
+            --accent-gold: #FFD700;
             --glass-white: rgba(255, 255, 255, 0.85);
             --glass-border: rgba(255, 255, 255, 0.5);
         }
@@ -30,6 +30,16 @@
             overflow-x: hidden;
         }
 
+        /* --- UTILITIES --- */
+        .hidden { display: none !important; }
+        .force-hide { display: none !important; }
+        .btn {
+            padding: 18px 45px; background: var(--primary-pink); color: white; border: none;
+            border-radius: 50px; font-weight: 700; cursor: pointer; transition: 0.3s;
+            box-shadow: 0 8px 20px rgba(255, 77, 109, 0.3); text-transform: uppercase;
+        }
+        .btn:hover { background: var(--dark-pink); transform: translateY(-3px); }
+
         /* --- AMBIANCE --- */
         .heart {
             position: fixed; top: -10px; color: var(--primary-pink);
@@ -44,6 +54,40 @@
             box-shadow: 0 15px 35px rgba(255, 77, 109, 0.15);
             padding: 40px; text-align: center; transition: 0.3s;
         }
+
+        /* --- THE GOLDEN TICKET POPUP --- */
+        #ticket-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(5px);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 20000;
+        }
+        
+        .ticket-card {
+            background: linear-gradient(135deg, #fff 0%, #ffd1dc 100%);
+            border: 4px solid var(--accent-gold);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            max-width: 500px; width: 90%;
+            box-shadow: 0 0 50px rgba(255, 215, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+            animation: popUp 0.5s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+        }
+        
+        .ticket-card::before {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.8), transparent);
+            transform: rotate(45deg); animation: shine 3s infinite;
+        }
+
+        @keyframes popUp { from { transform: scale(0); } to { transform: scale(1); } }
+        @keyframes shine { 0% { left: -50%; top: -50%; } 100% { left: 100%; top: 100%; } }
+
+        .ticket-header { font-family: 'Montserrat'; font-weight: 700; color: var(--accent-gold); font-size: 1.5rem; letter-spacing: 2px; }
+        .ticket-body { font-family: 'Dancing Script'; font-size: 3.5rem; margin: 20px 0; color: var(--dark-pink); }
+        .ticket-footer { font-family: 'Montserrat'; font-weight: 400; font-size: 0.9rem; opacity: 0.7; margin-bottom: 20px; }
 
         /* --- MUSIC PLAYER --- */
         #music-player {
@@ -74,16 +118,6 @@
         section { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 60px 20px; text-align: center; }
         .hero h1 { font-family: 'Dancing Script', cursive; font-size: clamp(3.5rem, 10vw, 6.5rem); margin: 0; }
         
-        .btn {
-            padding: 18px 45px; background: var(--primary-pink); color: white; border: none;
-            border-radius: 50px; font-weight: 700; cursor: pointer; transition: 0.3s;
-            box-shadow: 0 8px 20px rgba(255, 77, 109, 0.3); text-transform: uppercase;
-        }
-        .btn:hover { background: var(--dark-pink); transform: translateY(-3px); }
-
-        .hidden { display: none !important; }
-        .force-hide { display: none !important; }
-
         #noBtn { position: absolute; left: 60%; background: #9b9b9b; transition: 0.1s; }
         #yesBtn { position: absolute; left: 20%; }
 
@@ -93,6 +127,17 @@
     </style>
 </head>
 <body>
+
+    <div id="ticket-overlay" class="force-hide">
+        <div class="ticket-card">
+            <div class="ticket-header">OFFICIAL WINNER</div>
+            <div class="ticket-body">One-Time Pass</div>
+            <p style="font-size: 1.2rem; margin-bottom: 5px;">Valid for:</p>
+            <h3 style="font-family: 'Montserrat'; color: var(--dark-pink); margin-top:0;">Anything you want me to do.</h3>
+            <div class="ticket-footer">Warning: Cannot be used to make me eat olives. Expires: Never.</div>
+            <button class="btn" style="background: var(--accent-gold); color: var(--dark-pink);" onclick="closeTicket()">CLAIM & SCREENSHOT!</button>
+        </div>
+    </div>
 
     <div id="music-player" class="force-hide">
         <div class="album-art" id="album-art">🎵</div>
@@ -105,7 +150,7 @@
     </div>
 
     <div id="password-screen">
-        <section>
+        <section style="z-index: 10001; position: relative;">
             <div class="glass-card">
                 <h1 style="font-family: 'Dancing Script';">Hold On!</h1>
                 <p>Verify your identity to unlock my heart.</p>
@@ -208,7 +253,7 @@
         }
         setInterval(createAmbiance, 400);
 
-        // 4. GAME LOGIC
+        // 4. GAME LOGIC & TICKET POPUP
         let score = 0, timeLeft = 20, gameActive = false, gameInt;
         function startGame() {
             score = 0; timeLeft = 20; gameActive = true;
@@ -232,13 +277,22 @@
             container.appendChild(h);
             setTimeout(() => { if(h.parentElement) h.remove(); if(gameActive) spawnHeart(); }, 800);
         }
+        
         function endGame() {
             gameActive = false; clearInterval(gameInt);
             document.getElementById('start-game-btn').classList.remove('hidden');
+            document.getElementById('game-container').innerHTML = ''; // Clear hearts
+
             if(score >= 15) {
-                alert("CONGRATULATIONS! 🎉 You caught my love! You've officially won a 'ONE-TIME TICKET PASS' to make me do anything you want! (Screen record this now! 😉)");
-            } else { alert(`Aww, you caught ${score} hearts. You need 15 to win the Ticket Pass! Try again? ❤️`); }
-            document.getElementById('game-container').innerHTML = '';
+                // SHOW THE GOLDEN TICKET
+                document.getElementById('ticket-overlay').classList.remove('force-hide');
+            } else { 
+                alert(`Aww, you only caught ${score} hearts. You need 15 for the Pass! Try again? ❤️`); 
+            }
+        }
+
+        function closeTicket() {
+            document.getElementById('ticket-overlay').classList.add('force-hide');
         }
 
         // 5. REASONS
