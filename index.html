@@ -43,39 +43,26 @@
 
         /* --- PASSWORD GATE --- */
         #password-screen {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: linear-gradient(135deg, #fff0f3 0%, #ffccd5 100%);
-            display: flex !important;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 10000;
-            text-align: center;
+            display: flex !important; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 10000; text-align: center;
         }
-
         #password-screen.force-hide { display: none !important; }
 
         .glass-card {
-            background: var(--glass-white);
-            backdrop-filter: blur(15px);
-            border: 1px solid var(--glass-border);
-            border-radius: 30px;
-            box-shadow: 0 15px 35px rgba(255, 77, 109, 0.15);
-            padding: 40px;
-            width: 85%;
-            max-width: 450px;
+            background: var(--glass-white); backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border); border-radius: 30px;
+            box-shadow: 0 15px 35px rgba(255, 77, 109, 0.15); padding: 40px;
+            width: 85%; max-width: 450px;
         }
 
         /* --- FINAL CELEBRATION (SCROLLABLE) --- */
         #celebrate-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(255, 77, 109, 0.2); backdrop-filter: blur(10px);
-            display: flex; justify-content: center; align-items: center;
-            z-index: 30000;
+            display: flex; justify-content: center; align-items: center; z-index: 30000;
         }
-
         .celebrate-card {
             background: white; padding: 40px; border-radius: 40px; text-align: center;
             max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto;
@@ -94,12 +81,6 @@
             padding: 40px; text-align: center; max-width: 500px; width: 90%;
             box-shadow: 0 0 50px rgba(255, 215, 0, 0.5); position: relative; overflow: hidden;
         }
-        .ticket-card::before {
-            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.8), transparent);
-            transform: rotate(45deg); animation: shine 3s infinite;
-        }
-        @keyframes shine { 0% { left: -50%; top: -50%; } 100% { left: 100%; top: 100%; } }
 
         /* --- LAYOUT --- */
         section { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 60px 20px; text-align: center; }
@@ -165,7 +146,7 @@
 
     <div id="main-content" class="hidden">
         <section class="hero">
-            <h1>Hey Beautiful...</h1>
+            <h1>Hi Manya...</h1>
             <p style="letter-spacing: 2px; font-weight: 300;">I MADE THIS JUST FOR YOU</p>
             <div style="margin-top: 50px; opacity: 0.5; animation: bounce 2s infinite;">
                 <p style="font-size: 0.8rem;">SCROLL DOWN</p>
@@ -178,6 +159,16 @@
                 <h2 style="font-family: 'Dancing Script'; font-size: 3rem; margin-bottom: 20px;">The Journey So Far</h2>
                 <div id="confession-timer" style="font-size: 2.2rem; font-weight: 700; color: var(--primary-pink); font-family: 'Montserrat';">...</div>
                 <p style="margin-top: 15px; opacity: 0.6;">Since the day I confessed my feelings (Dec 22, 2025)</p>
+            </div>
+        </section>
+
+        <section id="reasons">
+            <div class="glass-card" style="max-width: 500px; width: 100%;">
+                <h2 style="font-family: 'Dancing Script'; font-size: 2.5rem; margin-top: 0;">Reasons Why I Love You</h2>
+                <div id="reason-text" style="font-size: 1.4rem; min-height: 80px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+                    Click the heart...
+                </div>
+                <button onclick="getRandomReason()" style="background:none; border:none; font-size:4rem; cursor:pointer;">❤️</button>
             </div>
         </section>
 
@@ -202,7 +193,7 @@
     </div>
 
     <script>
-        // TIMER LOGIC
+        // TIMER
         function updateTimer() {
             const start = new Date('December 22, 2025 00:00:00');
             const now = new Date();
@@ -227,10 +218,18 @@
                 document.getElementById('music-player').classList.remove('force-hide');
                 window.scrollTo(0,0);
                 updateTimer();
-            } else { alert("Not quite! Try reading the riddle again. 😉"); }
+            } else { alert("Not quite! 😉"); }
         }
 
-        // GAME LOGIC
+        // REASONS WHY
+        const reasons = ["Your smile ✨", "Your laugh 😂", "Your kind heart ❤️", "Everything about you 💖", "The way you call me 😉", "Our late night talks 🌙"];
+        function getRandomReason() {
+            const text = document.getElementById('reason-text');
+            text.style.opacity = 0;
+            setTimeout(() => { text.innerText = reasons[Math.floor(Math.random() * reasons.length)]; text.style.opacity = 1; }, 300);
+        }
+
+        // GAME
         let score = 0, timeLeft = 20, gameActive = false, gameInt;
         function startGame() {
             score = 0; timeLeft = 20; gameActive = true;
@@ -263,7 +262,7 @@
         }
         function closeTicket() { document.getElementById('ticket-overlay').classList.add('force-hide'); }
 
-        // CELEBRATION
+        // CELEBRATE
         function celebrate() {
             document.getElementById('celebrate-overlay').classList.remove('force-hide');
             for(let i=0; i<30; i++) { setTimeout(createAmbiance, i * 100); }
