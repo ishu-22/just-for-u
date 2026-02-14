@@ -17,6 +17,7 @@
             --glass-border: rgba(255, 255, 255, 0.5);
         }
 
+        /* --- GLOBAL STYLES --- */
         html { scroll-behavior: smooth; }
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: var(--soft-pink); }
@@ -28,17 +29,11 @@
             background: linear-gradient(135deg, #fff0f3 0%, #ffccd5 100%);
             color: var(--dark-pink);
             overflow-x: hidden;
+            position: relative;
         }
 
-        /* --- UTILITIES --- */
         .hidden { display: none !important; }
         .force-hide { display: none !important; }
-        .btn {
-            padding: 18px 45px; background: var(--primary-pink); color: white; border: none;
-            border-radius: 50px; font-weight: 700; cursor: pointer; transition: 0.3s;
-            box-shadow: 0 8px 20px rgba(255, 77, 109, 0.3); text-transform: uppercase;
-        }
-        .btn:hover { background: var(--dark-pink); transform: translateY(-3px); }
 
         /* --- AMBIANCE --- */
         .heart {
@@ -47,37 +42,58 @@
         }
         @keyframes fall { to { transform: translateY(105vh) translateX(30px) rotate(360deg); opacity: 0; } }
 
-        /* --- GLASS DESIGN --- */
-        .glass-card {
-            background: var(--glass-white); backdrop-filter: blur(15px);
-            border: 1px solid var(--glass-border); border-radius: 30px;
-            box-shadow: 0 15px 35px rgba(255, 77, 109, 0.15);
-            padding: 40px; text-align: center; transition: 0.3s;
+        /* --- PASSWORD GATE (FIXED CENTERING) --- */
+        #password-screen {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: linear-gradient(135deg, #fff0f3 0%, #ffccd5 100%);
+            display: flex !important;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            text-align: center;
         }
 
-        /* --- SUCCESS MESSAGE OVERLAY --- */
+        .glass-card {
+            background: var(--glass-white);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            box-shadow: 0 15px 35px rgba(255, 77, 109, 0.15);
+            padding: 40px;
+            text-align: center;
+            width: 85%;
+            max-width: 400px;
+        }
+
+        /* --- FINAL CELEBRATION (SCROLLABLE) --- */
         #celebrate-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(255, 77, 109, 0.2); backdrop-filter: blur(10px);
             display: flex; justify-content: center; align-items: center;
-            z-index: 30000; animation: fadeIn 0.5s ease;
+            z-index: 30000;
         }
 
         .celebrate-card {
             background: white;
-            padding: 50px;
+            padding: 40px;
             border-radius: 40px;
             text-align: center;
             max-width: 600px; width: 90%;
+            max-height: 80vh; /* Prevents card from going off screen */
+            overflow-y: auto; /* Makes long messages scrollable */
             box-shadow: 0 20px 60px rgba(201, 24, 74, 0.3);
             border: 3px solid var(--primary-pink);
-            animation: zoomIn 0.6s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-pink) transparent;
         }
 
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes zoomIn { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .celebrate-card::-webkit-scrollbar { width: 6px; }
+        .celebrate-card::-webkit-scrollbar-thumb { background-color: var(--primary-pink); border-radius: 10px; }
 
-        /* --- THE GOLDEN TICKET --- */
+        /* --- TICKET POPUP --- */
         #ticket-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(0,0,0,0.5); backdrop-filter: blur(5px);
@@ -112,10 +128,13 @@
             color: white; animation: rotate 4s linear infinite; animation-play-state: paused;
         }
 
-        /* --- LAYOUT --- */
+        /* --- BUTTONS & SECTIONS --- */
         section { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 60px 20px; text-align: center; }
         .hero h1 { font-family: 'Dancing Script', cursive; font-size: clamp(3.5rem, 10vw, 6.5rem); margin: 0; }
         
+        .btn { padding: 18px 45px; background: var(--primary-pink); color: white; border: none; border-radius: 50px; font-weight: 700; cursor: pointer; transition: 0.3s; box-shadow: 0 8px 20px rgba(255, 77, 109, 0.3); text-transform: uppercase; }
+        .btn:hover { background: var(--dark-pink); transform: translateY(-3px); }
+
         #game-container { position: relative; width: 100%; max-width: 600px; height: 400px; background: rgba(255, 255, 255, 0.3); border-radius: 20px; overflow: hidden; border: 2px dashed var(--primary-pink); margin: 20px auto; cursor: crosshair; }
         .game-heart { position: absolute; font-size: 35px; cursor: pointer; user-select: none; }
 
@@ -124,6 +143,7 @@
 
         @media (max-width: 600px) {
             #yesBtn { left: 10%; } #noBtn { left: 55%; }
+            .celebrate-card { padding: 30px 20px; }
         }
     </style>
 </head>
@@ -131,14 +151,16 @@
 
     <div id="celebrate-overlay" class="force-hide">
         <div class="celebrate-card">
-            <h1 style="font-family: 'Dancing Script'; font-size: 4rem; color: var(--primary-pink); margin-bottom: 20px;">Yay! ❤️</h1>
+            <h1 style="font-family: 'Dancing Script'; font-size: 3.5rem; color: var(--primary-pink); margin-bottom: 20px;">Yay! ❤️</h1>
             
-            <p style="font-size: 1.4rem; line-height: 1.6; color: var(--dark-pink);">
-                i know u would say yes, yk when i first heard of u, i thought yaar so cool she can be so friendly with everyone so easily, i am not like that na, i mean mein toh bahar bhi nahi nikla tha ghar se 2 saal
-                and yaar the girl i admired tbh is my bsf and bhaisahb gf wtf? yk i want to live my life with u, jo ho bs tum ho, every single sec i spend with u i feel so lighter, so happy, its like magic tbh.u are my evrything
-                tera mood khrab hoga toh mera bhi hoga, tu sad hogi to mein bhi sad hoga tu khush rahegi to mein bhi khush rahuga, i love u manya u are my life and if soemone asks me how i wanna die it would be alongside u, 
-                matlab i dont u to die ye mat sochna.yk mujhe ye regret hamesha rahega ki tumse mein jaldi nahi mila. yk ur text makes my day. no matter how bad my mood is ur text just deletes it all. yk i have many dreams that i
-                will live with u for sure. i would never leave ur hand ur are my first priority and will be forever.kehna bht kuch hain lekin webite kam pad jayegi meri baatein nahi khtm hogi lekin, next year u will see more of my pagalpan be ready for that. i love u
+            <p id="final-message-text" style="font-size: 1.2rem; line-height: 1.8; color: var(--dark-pink); text-align: left;">
+                i know u would say yes... <br><br>
+                yk when i first heard of u, i thought yaar so cool she can be so friendly with everyone... <br><br>
+                i want to live my life with u, jo ho bs tum ho, every single sec i spend with u i feel so lighter... <br><br>
+                u are my everything tera mood khrab hoga toh mera bhi hoga... <br><br>
+                i love u manya u are my life... <br><br>
+                yk mujhe ye regret hamesha rahega ki tumse mein jaldi nahi mila. <br><br>
+                kehna bht kuch hain lekin website kam pad jayegi...
             </p>
             
             <button class="btn" style="margin-top: 30px;" onclick="closeCelebrate()">Close</button>
@@ -147,7 +169,7 @@
 
     <div id="ticket-overlay" class="force-hide">
         <div class="ticket-card">
-            <div class="ticket-header">OFFICIAL WINNER</div>
+            <div class="ticket-header" style="font-family: 'Montserrat'; font-weight: 700; color: var(--accent-gold); font-size: 1.5rem; letter-spacing: 2px;">OFFICIAL WINNER</div>
             <div class="ticket-body" style="font-family: 'Dancing Script'; font-size: 3.5rem; color: var(--dark-pink); margin: 20px 0;">One-Time Pass</div>
             <p style="font-size: 1.2rem; margin-bottom: 5px;">Valid for:</p>
             <h3 style="font-family: 'Montserrat'; color: var(--dark-pink); margin-top:0; margin-bottom: 30px;">Anything you want me to do.</h3>
@@ -166,24 +188,21 @@
     </div>
 
     <div id="password-screen">
-        <section style="z-index: 10001; position: relative;">
-            <div class="glass-card">
-                <h1 style="font-family: 'Dancing Script';">Hold On!</h1>
-                <p>Verify your identity to unlock my heart.</p>
-                <input type="password" id="passInput" placeholder="Password..." 
-                       style="padding: 15px; border-radius: 15px; border: 1px solid #ddd; margin: 20px 0; text-align: center; outline: none; width: 80%;"
-                       onkeydown="if(event.key==='Enter') checkPass()">
-                <br>
-                <button class="btn" onclick="checkPass()">Unlock</button>
-            </div>
-        </section>
+        <div class="glass-card">
+            <h1 style="font-family: 'Dancing Script';">One Last Check...</h1>
+            <p>What is my favorite nickname for you?</p>
+            <input type="password" id="passInput" placeholder="Password..." 
+                   style="padding: 15px; border-radius: 15px; border: 1px solid #ddd; margin: 20px 0; text-align: center; outline: none; width: 80%;"
+                   onkeydown="if(event.key==='Enter') checkPass()">
+            <br>
+            <button class="btn" onclick="checkPass()">Unlock</button>
+        </div>
     </div>
 
     <div id="main-content" class="hidden">
-        
         <section class="hero">
-            <h1>Hi Manya...</h1>
-            <p style="letter-spacing: 2px; font-weight: 300;">MERI CHOTI SI MEHNAT HAIN YE</p>
+            <h1>Hey Beautiful...</h1>
+            <p style="letter-spacing: 2px; font-weight: 300;">I MADE THIS JUST FOR YOU</p>
             <div style="margin-top: 50px; opacity: 0.5; animation: bounce 2s infinite;">
                 <p style="font-size: 0.8rem;">SCROLL DOWN</p>
                 <span>↓</span>
@@ -193,8 +212,8 @@
         <section id="timeline">
             <div class="glass-card" style="width: 90%; max-width: 600px;">
                 <h2 style="font-family: 'Dancing Script'; font-size: 3rem; margin-bottom: 20px;">The Journey So Far</h2>
-                <div id="confession-timer" style="font-size: 2.2rem; font-weight: 700; color: var(--primary-pink);">...</div>
-                <p style="margin-top: 15px; opacity: 0.6;">Since the day we confessed our feelings (Dec 22, 2025)</p>
+                <div id="confession-timer" style="font-size: 2.2rem; font-weight: 700; color: var(--primary-pink); font-family: 'Montserrat';">...</div>
+                <p style="margin-top: 15px; opacity: 0.6;">Since the day I confessed my feelings (Dec 22, 2025)</p>
             </div>
         </section>
 
@@ -202,29 +221,22 @@
             <div class="glass-card" style="width: 95%; max-width: 700px;">
                 <h2 style="font-family: 'Dancing Script'; font-size: 3rem; margin: 0;">Catch My Love ❤️</h2>
                 <p>Win a <strong>"One-Time Ticket Pass"</strong> if you catch 15 hearts!</p>
-                
-                <div style="font-family: 'Montserrat'; font-weight: 600; margin: 15px 0;">
-                    Score: <span id="score">0</span> | Time: <span id="timer">20</span>s
-                </div>
-
+                <div style="font-family: 'Montserrat'; font-weight: 600; margin: 15px 0;">Score: <span id="score">0</span> | Time: <span id="timer">20</span>s</div>
                 <div id="game-container"></div>
-
                 <button class="btn" id="start-game-btn" onclick="startGame()">Start Game</button>
             </div>
         </section>
 
         <section id="reasons">
             <div class="glass-card" style="max-width: 500px; width: 100%;">
-                <h2 style="font-family: 'Dancing Script'; font-size: 2.5rem; margin-top: 0;">Reasons Why I Love You</h2>
-                <div id="reason-text" style="font-size: 1.4rem; min-height: 80px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
-                    Click the heart...
-                </div>
+                <h2 style="font-family: 'Dancing Script'; font-size: 2.5rem; margin-top: 0;">Why I Love You</h2>
+                <div id="reason-text" style="font-size: 1.4rem; min-height: 80px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">Click the heart...</div>
                 <button onclick="getRandomReason()" style="background:none; border:none; font-size:4rem; cursor:pointer;">❤️</button>
             </div>
         </section>
 
         <section id="final-question" style="position: relative; width: 100vw; height: 100vh;">
-            <h1 style="font-family: 'Dancing Script'; font-size: 4.5rem; margin: 0;">One last thing...</h1>
+            <h1 style="font-family: 'Dancing Script'; font-size: 4.5rem; margin: 0;">Wait...</h1>
             <p style="font-size: 1.8rem; font-weight: 300;">Will you be my Valentine?</p>
             <div style="position: relative; width: 100%; height: 300px; margin-top: 50px;">
                 <button class="btn" id="yesBtn" onclick="celebrate()">YES</button>
@@ -234,7 +246,7 @@
     </div>
 
     <script>
-        // 1. TIMER
+        // --- 1. TIMER ---
         function updateTimer() {
             const start = new Date('December 22, 2025 00:00:00');
             const now = new Date();
@@ -247,10 +259,10 @@
         }
         setInterval(updateTimer, 1000);
 
-        // 2. PASSWORD
+        // --- 2. PASSWORD ---
         function checkPass() {
             const input = document.getElementById('passInput').value.toLowerCase();
-            if(input === "munchkin") { 
+            if(input === "madam") { 
                 document.getElementById('password-screen').classList.add('force-hide');
                 document.getElementById('main-content').classList.remove('hidden');
                 document.getElementById('music-player').classList.remove('force-hide');
@@ -258,18 +270,7 @@
             } else { alert("Incorrect identity! 😂"); }
         }
 
-        // 3. AMBIANCE HEARTS
-        function createAmbiance() {
-            const h = document.createElement('div');
-            h.classList.add('heart'); h.innerHTML = '❤️';
-            h.style.left = Math.random() * 100 + 'vw';
-            h.style.animationDuration = Math.random() * 3 + 2 + 's';
-            document.body.appendChild(h);
-            setTimeout(() => h.remove(), 5000);
-        }
-        setInterval(createAmbiance, 400);
-
-        // 4. GAME LOGIC
+        // --- 3. GAME ---
         let score = 0, timeLeft = 20, gameActive = false, gameInt;
         function startGame() {
             score = 0; timeLeft = 20; gameActive = true;
@@ -296,31 +297,32 @@
         function endGame() {
             gameActive = false; clearInterval(gameInt);
             document.getElementById('start-game-btn').classList.remove('hidden');
-            document.getElementById('game-container').innerHTML = '';
             if(score >= 15) { document.getElementById('ticket-overlay').classList.remove('force-hide'); }
-            else { alert(`Aww, only ${score} hearts. Need 15 for the Ticket! ❤️`); }
+            else { alert(`Aww, only ${score} hearts. Need 15! ❤️`); }
+            document.getElementById('game-container').innerHTML = '';
         }
         function closeTicket() { document.getElementById('ticket-overlay').classList.add('force-hide'); }
 
-        // 5. THE "YES" CELEBRATION
+        // --- 4. YES CELEBRATION ---
         function celebrate() {
             document.getElementById('celebrate-overlay').classList.remove('force-hide');
-            // Create massive hearts
-            for(let i=0; i<20; i++) {
-                setTimeout(createAmbiance, i * 100);
-            }
+            for(let i=0; i<20; i++) { setTimeout(createAmbiance, i * 100); }
         }
         function closeCelebrate() { document.getElementById('celebrate-overlay').classList.add('force-hide'); }
 
-        // 6. REASONS & OTHERS
-        const reasons = ["yaar teri smile", "teri enrgy brooo", "Your soul ❤️", "Your sense of humor 😉", "ur care towards me 😴", "Everything about you 💖","teri bateein yaar","the way i never get bored with u"];
+        // --- 5. OTHERS ---
+        function createAmbiance() {
+            const h = document.createElement('div'); h.classList.add('heart'); h.innerHTML = '❤️';
+            h.style.left = Math.random() * 100 + 'vw'; h.style.animationDuration = Math.random() * 3 + 2 + 's';
+            document.body.appendChild(h); setTimeout(() => h.remove(), 5000);
+        }
+        setInterval(createAmbiance, 400);
+
+        const reasons = ["Your smile ✨", "Your laugh 😂", "Your kind heart ❤️", "Everything about you 💖"];
         function getRandomReason() {
             const text = document.getElementById('reason-text');
             text.style.opacity = 0;
-            setTimeout(() => {
-                text.innerText = reasons[Math.floor(Math.random() * reasons.length)];
-                text.style.opacity = 1;
-            }, 300);
+            setTimeout(() => { text.innerText = reasons[Math.floor(Math.random() * reasons.length)]; text.style.opacity = 1; }, 300);
         }
 
         const audio = document.getElementById('main-audio'), albumArt = document.getElementById('album-art'), playBtn = document.getElementById('masterPlay');
